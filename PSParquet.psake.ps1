@@ -15,7 +15,8 @@ Properties {
     $Script:NestedModules = @()
     $Script:NestedModuleFiles = @()
     # Variables for binary Powershell modules (not done yet)
-    $Script:DevSrcFolder = "$BuildDir\srcbuild\ModuleName"
+    $Script:DevSrcFolder = "$BuildDir\src\$ModuleName"
+    $Script:DevOutputFolder = "$Script:OutputModule\bin"
     $Script:CmdletsToExport = @()
     $Script:Cmdlets = @()
     # psm1 and psd1
@@ -40,9 +41,13 @@ Task BuildBinaries {
     # Do compilation of binaries, if there are any
     if (Test-Path "$Script:BuildDir\src") {
         if (!$(Test-Path $Script:DevSrcFolder)) { New-Item -ItemType Directory -Path $Script:DevSrcFolder -Force }
-        dotnet build "$Script:BuildDir\src\$Script:ModuleName" -o "$Script:OutputModule"
-        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:OutputModule" -filter *dll)) {
-            Import-Module $dll.fullname -PassThru | Select-Object -ExpandProperty ExportedCommands
+        dotnet build "$Script:DevSrcFolder"
+        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\netstandard2.0" -filter *dll)) {
+            if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
+            Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
+            if ($dll.BaseName -eq $Script:ModuleName) {
+                Import-Module $dll.fullname -PassThru | Select-Object -ExpandProperty ExportedCommands
+            }
         }
     }
 }

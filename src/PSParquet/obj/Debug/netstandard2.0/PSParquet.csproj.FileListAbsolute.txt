@@ -8,3 +8,6 @@ C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.AssemblyInfo.c
 C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.csproj.CoreCompileInputs.cache
 C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.dll
 C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.pdb
+C:\dev\PSParquet\output\PSParquet\PSParquet.deps.json
+C:\dev\PSParquet\output\PSParquet\PSParquet.dll
+C:\dev\PSParquet\output\PSParquet\PSParquet.pdb
