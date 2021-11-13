@@ -73,7 +73,6 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
-          repo: ${{github.repository}}
           name: PSParquet
           path: Artifact/
 
@@ -82,7 +81,8 @@ jobs:
           Write-Host $Env:GITHUB_REF
           $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-          $ModulePath = $Env:PSModulePath -split ';' | Select-Object -first 1 
+          $ModulePath = $Env:PSModulePath -split ';' | Select-Object -first 1
+          ls ./Artifact -recurse
           Copy-Item -Path ./Artifact/$ModuleName -Destination $ModulePath -Force -Recurse
           Get-Module -ListAvailable
           Get-Command -Module $ModuleName
