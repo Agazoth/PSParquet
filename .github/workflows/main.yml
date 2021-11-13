@@ -52,7 +52,7 @@ jobs:
         run: |
           git config --global user.name 'Agazoth'
           git config --global user.email 'axel@riax.dk'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
           git add .
           git commit -am "Pushing Artifacts"
           git push
