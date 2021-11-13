@@ -6,11 +6,11 @@
       <command:verb>Export</command:verb>
       <command:noun>Parquet</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Export objects to Parquet file</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Esports an array of objects to a parquet file</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -18,7 +18,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>FilePath</maml:name>
           <maml:description>
-            <maml:para>{{ Fill FilePath Description }}</maml:para>
+            <maml:para>Path to the Parquet file. Existing file will be overwritten</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -30,7 +30,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>InputObject</maml:name>
           <maml:description>
-            <maml:para>{{ Fill InputObject Description }}</maml:para>
+            <maml:para>An array of objects to export to Parquet</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -42,7 +42,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>PassThru</maml:name>
           <maml:description>
-            <maml:para>{{ Fill PassThru Description }}</maml:para>
+            <maml:para>Passes the files to the pipeline</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -56,7 +56,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>FilePath</maml:name>
         <maml:description>
-          <maml:para>{{ Fill FilePath Description }}</maml:para>
+          <maml:para>Path to the Parquet file. Existing file will be overwritten</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -68,7 +68,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>InputObject</maml:name>
         <maml:description>
-          <maml:para>{{ Fill InputObject Description }}</maml:para>
+          <maml:para>An array of objects to export to Parquet</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -80,7 +80,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>PassThru</maml:name>
         <maml:description>
-          <maml:para>{{ Fill PassThru Description }}</maml:para>
+          <maml:para>Passes the files to the pipeline</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -118,9 +118,10 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $files = Get-ChildItem -File -Recurse
+PS C:\&gt; Export-Parquet -InputObject $files -FilePath C:\temp\files.parquet</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Get a list of files recursively from the current directory and export them tp a Parquet file</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -132,11 +133,11 @@
       <command:verb>Import</command:verb>
       <command:noun>Parquet</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Import objects from Parquet file</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Imports a dataset from a Parquet file</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -144,7 +145,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
           <maml:name>FilePath</maml:name>
           <maml:description>
-            <maml:para>{{ Fill FilePath Description }}</maml:para>
+            <maml:para>Path to the Parquet file</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -159,7 +160,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
         <maml:name>FilePath</maml:name>
         <maml:description>
-          <maml:para>{{ Fill FilePath Description }}</maml:para>
+          <maml:para>Path to the Parquet file</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -197,9 +198,53 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $FilesFromParquet = Import-Parquet -FilePath C:\temp\files.parquet
+PS C:\&gt; $FilesFromParquet[0]
+
+
+PSPath              : Microsoft.PowerShell.Core\FileSystem::C:\dev\PSParquet\output\PSParquet\changelog.txt
+PSParentPath        : Microsoft.PowerShell.Core\FileSystem::C:\dev\PSParquet\output\PSParquet
+PSChildName         : changelog.txt
+PSDrive             :
+PSProvider          :
+PSIsContainer       : False
+Mode                : -a---
+ModeWithoutHardLink : -a---
+VersionInfo         : File:             C:\dev\PSParquet\output\PSParquet\changelog.txt
+                      InternalName:
+                      OriginalFilename:
+                      FileVersion:
+                      FileDescription:
+                      Product:
+                      ProductVersion:
+                      Debug:            False
+                      Patched:          False
+                      PreRelease:       False
+                      PrivateBuild:     False
+                      SpecialBuild:     False
+                      Language:
+
+BaseName            : changelog
+Target              :
+LinkType            :
+Length              : 0
+DirectoryName       : C:\dev\PSParquet\output\PSParquet
+Directory           : C:\dev\PSParquet\output\PSParquet
+IsReadOnly          : False
+FullName            : C:\dev\PSParquet\output\PSParquet\changelog.txt
+Extension           : .txt
+Name                : changelog.txt
+Exists              : True
+CreationTime        : 12-11-2021 14:37:46 +00:00
+CreationTimeUtc     : 12-11-2021 13:37:46 +00:00
+LastAccessTime      : 12-11-2021 18:12:59 +00:00
+LastAccessTimeUtc   : 12-11-2021 17:12:59 +00:00
+LastWriteTime       : 10-09-2021 07:40:41 +00:00
+LastWriteTimeUtc    : 10-09-2021 05:40:41 +00:00
+LinkTarget          :
+Attributes          : Archive</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Imports a Parquet file and stores the objects in the FilesFromParquet variable</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

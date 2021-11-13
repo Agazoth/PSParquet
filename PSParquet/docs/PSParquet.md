@@ -12,8 +12,8 @@ This module contains modules to import and export data from and to Parquet files
 
 ## PSParquet Cmdlets
 ### [Export-Parquet](Export-Parquet.md)
-Export data to Parquet files
+Export objects to Parquet file
 
 ### [Import-Parquet](Import-Parquet.md)
-Import data from parquet files
+Import objects from Parquet file
 

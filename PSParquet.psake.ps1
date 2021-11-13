@@ -24,7 +24,7 @@ Properties {
     $Script:psd1 = "$DevModuleFolder\$ModuleName.psd1"
 }
 
-Task Default -depends Initialize3PartyBinaries, InitializeModuleFile, UpdateHelp, InitializeManifestFile
+Task Default -depends Initialize3PartyBinaries, InitializeModuleFile, InitializeManifestFile, UpdateHelp
 
 Task Cleanup {
 
@@ -45,6 +45,7 @@ Task BuildBinaries {
         $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\netstandard2.0" -filter *dll)) {
             if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
             Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
+            Copy-Item -Path $dll -Destination $Script:DevBinfolder -force
             if ($dll.BaseName -eq $Script:ModuleName) {
                 $cs = Import-Module $dll.fullname -PassThru | Select-Object -ExpandProperty ExportedCommands
                 Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs -NestedModules "bin/$($dll.name)"
@@ -56,7 +57,7 @@ Task BuildBinaries {
 Task Initialize3PartyBinaries {
     if (test-path $Script:DevBinfolder) {
         #The dlls in the root bin folder gets imported
-        $Script:NestedModules = Get-ChildItem $Script:DevBinfolder -File -Filter *dll | Select-Object -ExpandProperty Name | foreach { 'bin/{0}' -f $_ }
+        $Script:NestedModules = Get-ChildItem $Script:DevBinfolder -File -Filter *$($Script:ModuleName).dll | Select-Object -ExpandProperty Name | foreach { 'bin/{0}' -f $_ }
         $Script:NestedModuleFiles = Get-ChildItem $Script:DevBinfolder -Filter *dll -Recurse
         "Found {0} 3. party dlls" -f $Script:NestedModuleFiles.count
     }
@@ -81,7 +82,7 @@ Task InitializeModuleFile {
 }
 
 Task UpdateHelp -depends InitializeModuleFile {
-    Import-Module $script:psm1 -Force -Global
+    Import-Module $script:psd1 -Force -Global
     if (!$(Test-Path $Script:DevModuleFolder\docs)) {
         New-MarkdownHelp -WithModulePage -Module $Script:ModuleName -OutputFolder $Script:DevModuleFolder\docs
     }
