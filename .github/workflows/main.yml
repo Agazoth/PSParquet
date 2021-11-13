@@ -88,5 +88,6 @@ jobs:
 
       - name: Publish to Powershell Gallery
         run: |
+          Get-Module -ListAvailable
           Publish-Module -Name $Env:MODULE_NAME -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
         shell: pwsh
