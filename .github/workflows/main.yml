@@ -49,4 +49,5 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Running wild!"
-          Get-ChildItem -Directory -recurse
+          $(pwd)
+          ls
