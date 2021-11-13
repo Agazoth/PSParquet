@@ -77,17 +77,16 @@ jobs:
           name: PSParquet
           path: Artifact/
 
-      - name: Get Module Name
+      - name: Import the module
         run: |
           Write-Host $Env:GITHUB_REF
           $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
-          echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append    
+          echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append   
+          Import-Module ./Artifact/$ModuleName -Force
+          Get-Command -Module $ModuleName
         shell: pwsh
 
       - name: Publish to Powershell Gallery
         run: |
-          Write-Host $Env:GITHUB_REF
-          $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
-          Import-Module ./Artifact/$ModuleName
-          Publish-Module -Name $ModuleName -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
+          Publish-Module -Name $Env:MODULE_NAME -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
         shell: pwsh
