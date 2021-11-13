@@ -85,7 +85,9 @@ jobs:
         shell: pwsh
 
       - name: Publish to Powershell Gallery
-        uses: pcgeek86/publish-powershell-module-action@v19
-        with:
-          modulePath: ./Artifact/${{ env.MODULE_NAME }} 
-          NuGetApiKey: ${{ secrets.PSGALLERYKEY }} 
+        run: |
+          Write-Host $Env:GITHUB_REF
+          $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
+          Import-Module ./Artifact/$ModuleName
+          Publish-Module -Name $ModuleName -NuGetApiKey $Env:PSGALLERYKEY
+        shell: pwsh
