@@ -63,16 +63,16 @@ jobs:
           name: PSParquet 
           path: ./output/
           
-    release:
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-          # Check out the main branch
-        - uses: actions/checkout@main
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+        # Check out the main branch
+      - uses: actions/checkout@main
 
-        - name: Download build artifact
-          uses: actions/download-artifact@v2
-          with:
-            repo: ${{github.repository}}
-            name: PSParquet
-            path: Artifact/
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          repo: ${{github.repository}}
+          name: PSParquet
+          path: Artifact/
