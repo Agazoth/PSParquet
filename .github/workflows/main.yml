@@ -5,8 +5,6 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -49,3 +47,12 @@ jobs:
         shell: pwsh
         run: |
           Invoke-psake .\PSParquet.psake.ps1 Build
+
+      - name: Push changes to Git Repository
+        run: |
+          git config --global user.name 'Agazoth'
+          git config --global user.email 'axel@riax.dk'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add .
+          git commit -am "Pushing Artifacts"
+          git push
