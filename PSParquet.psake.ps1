@@ -24,7 +24,7 @@ Properties {
     $Script:psd1 = "$DevModuleFolder\$ModuleName.psd1"
 }
 
-Task Default -depends Initialize3PartyBinaries, InitializeModuleFile, InitializeManifestFile, UpdateHelp
+Task Default -depends BuildBinaries, Initialize3PartyBinaries, InitializeModuleFile, InitializeManifestFile, UpdateHelp
 
 Task Cleanup {
 
