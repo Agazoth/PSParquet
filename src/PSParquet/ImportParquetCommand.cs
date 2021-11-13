@@ -6,7 +6,7 @@ using System.Linq;
 using Parquet.Data;
 using Parquet;
 
-namespace AxModule
+namespace PSParquet
 {
     [Cmdlet("Import", "Parquet")]
     [OutputType(typeof(PSCustomObject))]
@@ -42,18 +42,21 @@ namespace AxModule
 
             PSObject obj = new PSObject(dictionary);
             var options = new ParquetOptions { TreatByteArrayAsString = true };
-            var pReader = ParquetReader.OpenFromFile(FilePath, options);
+            //var pReader = ParquetReader.OpenFromFile(FilePath, options);
             string[] header = dataFields.Select(f => f.Name).ToArray();
-            var dict = pReader.ReadAsTable();
-
+            var dict = parquetReader.ReadAsTable();
+            WriteVerbose("Adding rows");
             foreach (var row in dict)
             {
-                string[] strarr = row.Values.Select(v => v.ToString()).ToArray();
+                //WriteVerbose("Doing " + row.ToString());
+                object[] strarr = row.Values.Select(v => v ?? "").ToArray();
                 ///object[] strarr = row.Values.Select(v => v).ToArray();
+                //WriteVerbose("Zipping");
                 var resdict = header.Zip(strarr, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
                 var pso = new PSObject();
                 foreach (var item in resdict)
                 {
+                    //WriteVerbose("Adding " + item.Key + " " + item.Value);
                     pso.Properties.Add(new PSNoteProperty(item.Key, item.Value));
                 };
                 pso.TypeNames.Add("ParquetObject");

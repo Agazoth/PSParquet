@@ -46,7 +46,8 @@ Task BuildBinaries {
             if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
             Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
             if ($dll.BaseName -eq $Script:ModuleName) {
-                Import-Module $dll.fullname -PassThru | Select-Object -ExpandProperty ExportedCommands
+                $cs = Import-Module $dll.fullname -PassThru | Select-Object -ExpandProperty ExportedCommands
+                Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs -NestedModules "bin/$($dll.name)"
             }
         }
     }

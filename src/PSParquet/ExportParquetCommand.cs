@@ -8,7 +8,7 @@ using Parquet.Data;
 using Parquet;
 
 
-namespace AxModule
+namespace PSParquet
 {
     [Cmdlet("Export", "Parquet")]
     [OutputType(typeof(PSCustomObject))]
@@ -53,24 +53,56 @@ namespace AxModule
                 if (props[p].MemberType.ToString().Contains("Property"))
                 {
                     string name = props[p].Name;
-                    WriteVerbose("Doing: " + name);
-                    Type type = Type.GetType(props[p].TypeNameOfValue);
-                    if (type == Type.GetType("System.DateTime"))
+                    var valueType = props[p].TypeNameOfValue;
+                    //WriteVerbose("Doing: " + name);
+                    //WriteVerbose("Type: " + valueType);
+                    Type type = Type.GetType(valueType) ?? typeof(string);
+                    bool convert = false;
+                    switch (type.ToString())
                     {
-                        type = typeof(DateTimeOffset);
+                        case "System.DateTime":
+                            type = typeof(DateTimeOffset);
+                            break;
+                        case "System.Int32":
+                            type = typeof(int);
+                            break;
+                        case "System.Int64":
+                            type = typeof(long);
+                            break;
+                        case "System.Double":
+                            type = typeof(double);
+                            break;
+                        case "System.Decimal":
+                            type = typeof(decimal);
+                            break;
+                        case "System.String":
+                            type = typeof(string);
+                            break;
+                        case "System.Boolean":
+                            type = typeof(bool);
+                            break;
+                        default:
+                            type = typeof(string);
+                            convert = true;
+                            break;
                     }
+                    //WriteVerbose("CalculatedType: " + type);
                     cleanprops.Add(name, type);
                     fields.Add(new DataField(name, type));
                     DataField field = new DataField(name, type);
-                    WriteVerbose("Getting Data from " + name);
-                    WriteVerbose("Getting Data type " + type.ToString());
+                    //WriteVerbose("Getting Data from " + name);
+                    //WriteVerbose("Getting Data type " + type.ToString());
                     List<dynamic> data = new List<dynamic>();
                     Array typedArray = Array.CreateInstance(type, InputObject.Length);
-                    WriteVerbose("Array type " + typedArray.GetType().ToString());
+                    //WriteVerbose("Array type " + typedArray.GetType().ToString());
                     for (int i = 0; i < InputObject.Length; i++)
                     {
                         var ob = new PSObject(InputObject.GetValue(i)).Members.ToList();
                         var value = ob.Where(x => x.Name == name).FirstOrDefault().Value;
+                        if (convert)
+                        {
+                            value = value.ToString();
+                        }
                         try
                         {
                             if (type == typeof(DateTimeOffset))
@@ -90,15 +122,7 @@ namespace AxModule
                 }
             };
 
-            WriteVerbose("Using: " + InputObject.Length);
-            //create data columns with schema metadata and the data you need
-            var idColumn = new DataColumn(
-               new DataField<int>("id"),
-               new int[] { 1, 2 });
-
-            var cityColumn = new DataColumn(
-               new DataField<string>("city"),
-               new string[] { "London", "Derby" });
+            WriteVerbose("Objects: " + InputObject.Length);
 
             // create file schema
             var schema = new Schema(fields);
@@ -113,7 +137,7 @@ namespace AxModule
                         foreach (var column in col)
                         {
                             // write the data for the column
-                            WriteVerbose("Writing: " + column.Field.Name);
+                            //WriteVerbose("Writing: " + column.Field.Name);
                             groupWriter.WriteColumn(column);
                         }
                     }
