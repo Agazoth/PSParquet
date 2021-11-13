@@ -83,6 +83,7 @@ jobs:
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           $ModulePath = $Env:PSModulePath -split ';' | Select-Object -first 1
           Write-Host "Path: $(pwd)"
+          Get-ChildItem ./output/$ModuleName -Recurse
           Copy-Item -Path ./output/$ModuleName -Destination $ModulePath -Force -Recurse
           Get-Module -ListAvailable
           Get-Command -Module $ModuleName
