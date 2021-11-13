@@ -82,8 +82,8 @@ jobs:
           $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           $ModulePath = $Env:PSModulePath -split ';' | Select-Object -first 1
-          Get-ChildItem -Recurse
-          Copy-Item -Path ./Artifact/$ModuleName -Destination $ModulePath -Force -Recurse
+          Write-Host "Path: $(pwd)"
+          Copy-Item -Path ./PSParquet/Artifact/$ModuleName -Destination $ModulePath -Force -Recurse
           Get-Module -ListAvailable
           Get-Command -Module $ModuleName
         shell: pwsh
