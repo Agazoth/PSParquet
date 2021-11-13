@@ -56,3 +56,23 @@ jobs:
           git add .
           git commit -am "Pushing Artifacts"
           git push
+      
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: PSParquet 
+          path: ./output/
+          
+    release:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+          # Check out the main branch
+        - uses: actions/checkout@main
+
+        - name: Download build artifact
+          uses: actions/download-artifact@v2
+          with:
+            repo: ${{github.repository}}
+            name: PSParquet
+            path: Artifact/
