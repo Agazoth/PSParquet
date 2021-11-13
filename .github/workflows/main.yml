@@ -48,6 +48,4 @@ jobs:
       - name: Invoke build
         shell: pwsh
         run: |
-          Write-Host "Running wild!"
-          $(pwd)
-          ls
+          Invoke-psake .\PSParquet.psake.ps1 Build
