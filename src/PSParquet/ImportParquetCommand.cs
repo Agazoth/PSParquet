@@ -27,6 +27,7 @@ namespace PSParquet
         // This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
         protected override void ProcessRecord()
         {
+            WriteVerbose("File: " + FilePath);
             ProviderInfo provider;
             PSDriveInfo drive;
             var boundFile = this.SessionState.Path.GetUnresolvedProviderPathFromPSPath(FilePath, out provider, out drive);
