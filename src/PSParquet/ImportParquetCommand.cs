@@ -27,9 +27,18 @@ namespace PSParquet
         // This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
         protected override void ProcessRecord()
         {
-            WriteVerbose("Using: " + FilePath);
-            Stream fileStream = System.IO.File.OpenRead(FilePath);
-            WriteVerbose("Opened file");
+            ProviderInfo provider;
+            PSDriveInfo drive;
+            var boundFile = this.SessionState.Path.GetUnresolvedProviderPathFromPSPath(FilePath, out provider, out drive);
+            var fi = new FileInfo(boundFile);
+            if (!fi.Exists)
+            {
+                throw new FileNotFoundException("File not found: " + boundFile);
+            }
+            WriteVerbose("Using: " + boundFile);
+            WriteVerbose("Provider: " + provider);
+            WriteVerbose("Drive: " + drive);
+            Stream fileStream = fi.OpenRead();
             var parquetReader = new ParquetReader(fileStream);
             DataField[] dataFields = parquetReader.Schema.GetDataFields();
             var dictionary = new Dictionary<string, object>();

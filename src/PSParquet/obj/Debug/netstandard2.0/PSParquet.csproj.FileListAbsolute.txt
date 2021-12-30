@@ -1,13 +1,3 @@
-C:/dev/PSParquet/src/PSParquet/bin/Debug/netstandard2.0/PSParquet.deps.json
-C:/dev/PSParquet/src/PSParquet/bin/Debug/netstandard2.0/PSParquet.dll
-C:/dev/PSParquet/src/PSParquet/bin/Debug/netstandard2.0/PSParquet.pdb
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.csproj.AssemblyReference.cache
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.GeneratedMSBuildEditorConfig.editorconfig
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.AssemblyInfoInputs.cache
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.AssemblyInfo.cs
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.csproj.CoreCompileInputs.cache
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.dll
-C:/dev/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.pdb
 C:/dev/PSParquet/output/PSParquet/PSParquet.deps.json
 C:/dev/PSParquet/output/PSParquet/PSParquet.dll
 C:/dev/PSParquet/output/PSParquet/PSParquet.pdb
@@ -21,3 +11,13 @@ C:/dev/PSParquet/output/PSParquet/PSParquet.pdb
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.csproj.CoreCompileInputs.cache
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.dll
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/netstandard2.0/PSParquet.pdb
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.csproj.AssemblyReference.cache
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.AssemblyInfoInputs.cache
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.AssemblyInfo.cs
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.csproj.CoreCompileInputs.cache
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.dll
+C:\dev\PSParquet\src\PSParquet\obj\Debug\netstandard2.0\PSParquet.pdb
+C:\dev\PSParquet\src\PSParquet\bin\Debug\netstandard2.0\PSParquet.deps.json
+C:\dev\PSParquet\src\PSParquet\bin\Debug\netstandard2.0\PSParquet.dll
+C:\dev\PSParquet\src\PSParquet\bin\Debug\netstandard2.0\PSParquet.pdb
