@@ -12,7 +12,11 @@
 RootModule = 'PSParquet.psm1'
 
 # Version number of this module.
+<<<<<<< HEAD
 ModuleVersion = '0.0.34'
+=======
+ModuleVersion = '0.0.23'
+>>>>>>> ee30dabd9567a6f15480363e1710facacccf5253
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
