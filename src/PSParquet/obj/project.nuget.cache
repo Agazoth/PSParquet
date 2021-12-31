@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "JOtI6aqx2cHkwR64bz1oYt1/+akpIOITJBGM4TC8P0uROKEto3bbeK7z5U8PixffTq0N7SR+ikBChih3lAb+2g==",
+  "dgSpecHash": "FJwrq0YB7/pMAo4+Vy0lZRaPjZJT8sKFnuEV39jt9CGzILdVnqNjOU+RlWNSs3rN5/wNqwQN0GOwpEGNwLD5TQ==",
   "success": true,
-  "projectFilePath": "C:\\dev\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
+  "projectFilePath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\axel\\.nuget\\packages\\ironsnappy\\1.3.0\\ironsnappy.1.3.0.nupkg.sha512",
-    "C:\\Users\\axel\\.nuget\\packages\\parquet.net\\3.9.1\\parquet.net.3.9.1.nupkg.sha512",
-    "C:\\Users\\axel\\.nuget\\packages\\powershellstandard.library\\7.0.0-preview.1\\powershellstandard.library.7.0.0-preview.1.nupkg.sha512",
-    "C:\\Users\\axel\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+    "/home/runner/.nuget/packages/ironsnappy/1.3.0/ironsnappy.1.3.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/parquet.net/3.9.1/parquet.net.3.9.1.nupkg.sha512",
+    "/home/runner/.nuget/packages/powershellstandard.library/7.0.0-preview.1/powershellstandard.library.7.0.0-preview.1.nupkg.sha512",
+    "/home/runner/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
   ],
   "logs": []
 }
