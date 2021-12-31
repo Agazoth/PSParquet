@@ -42,13 +42,13 @@ Task BuildBinaries {
     if (Test-Path "$Script:BuildDir\src") {
         if (!$(Test-Path $Script:DevSrcFolder)) { New-Item -ItemType Directory -Path $Script:DevSrcFolder -Force }
         dotnet build "$Script:DevSrcFolder"
-        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\netstandard2.0" -filter *dll)) {
+        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\net6.0" -filter *dll)) {
             if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
             Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
             Copy-Item -Path $dll -Destination $Script:DevBinfolder -force
             if ($dll.BaseName -eq $Script:ModuleName) {
-                $cs = Import-Module $dll.fullname -PassThru | Select-Object -ExpandProperty ExportedCommands
-                Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs -NestedModules "bin/$($dll.name)"
+                $cs = Start-Job -ScriptBlock { Import-Module $args -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
+                Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($dll.name)"
             }
         }
     }
@@ -82,12 +82,15 @@ Task InitializeModuleFile {
 }
 
 Task UpdateHelp -depends InitializeModuleFile {
-    Import-Module $script:psd1 -Force -Global
-    if (!$(Test-Path $Script:DevModuleFolder\docs)) {
-        New-MarkdownHelp -WithModulePage -Module $Script:ModuleName -OutputFolder $Script:DevModuleFolder\docs
-    }
-    Update-MarkdownHelpModule $Script:DevModuleFolder\docs -RefreshModulePage -Force
-    New-ExternalHelp $Script:DevModuleFolder\docs -OutputPath $Script:DevModuleFolder\en-US\ -Force
+    Start-Job -ScriptBlock {
+        Import-Module $args[0] -Force -Global
+        if (!$(Test-Path $args[1]\docs)) {
+            New-MarkdownHelp -WithModulePage -Module $args[2] -OutputFolder $args[1]\docs
+        }
+        Update-MarkdownHelpModule $args[1]\docs -RefreshModulePage -Force
+        New-ExternalHelp $args[1]\docs -OutputPath $args[1]\en-US\ -Force
+    } -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName | Wait-Job | Remove-Job
+
 }
 
 Task InitializeManifestFile -depends InitializeModuleFile {
@@ -149,10 +152,12 @@ Task BuildPSSecretsExtension -depends Default {
 }
 
 Task Test -depends Build {
-    If (Test-Path "C:\Program Files\WindowsPowerShell\Modules\$Script:ModuleName") {
-        Remove-Item "C:\Program Files\WindowsPowerShell\Modules\$Script:ModuleName" -Recurse -force
-    }
-    Copy-Item -Path $OutputModule -Destination "C:\Program Files\WindowsPowerShell\Modules" -Recurse
+    start-job -scriptblock {
+        $pesterConfig = @{Path = '.\Tests\' }
+        $c = New-PesterContainer @pesterConfig
+        Invoke-Pester -Container $c -Output Detailed
+    } | Wait-Job | Receive-job
+    Get-Job | Remove-Job
 }
 
 Task Info {
