@@ -20,10 +20,14 @@
           "IronSnappy": "1.3.0"
         },
         "compile": {
-          "lib/net5.0/Parquet.dll": {}
+          "lib/net5.0/Parquet.dll": {
+            "related": ".pdb;.xml"
+          }
         },
         "runtime": {
-          "lib/net5.0/Parquet.dll": {}
+          "lib/net5.0/Parquet.dll": {
+            "related": ".pdb;.xml"
+          }
         }
       },
       "PowerShellStandard.Library/7.0.0-preview.1": {
@@ -195,16 +199,27 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.15, 6.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.15, 6.0.15]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
       }
     }
   }

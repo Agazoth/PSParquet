@@ -12,7 +12,6 @@ C:/dev/PSParquet/src/PSParquet/obj/Debug/net6.0/ref/PSParquet.dll
 C:/dev/PSParquet/src/PSParquet/obj/Debug/net6.0/PSParquet.pdb
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/bin/Debug/net6.0/PSParquet.deps.json
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/bin/Debug/net6.0/PSParquet.dll
-/home/runner/work/PSParquet/PSParquet/src/PSParquet/bin/Debug/net6.0/ref/PSParquet.dll
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/bin/Debug/net6.0/PSParquet.pdb
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net6.0/PSParquet.csproj.AssemblyReference.cache
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net6.0/PSParquet.GeneratedMSBuildEditorConfig.editorconfig
@@ -22,3 +21,4 @@ C:/dev/PSParquet/src/PSParquet/obj/Debug/net6.0/PSParquet.pdb
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net6.0/PSParquet.dll
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net6.0/ref/PSParquet.dll
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net6.0/PSParquet.pdb
+/home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net6.0/refint/PSParquet.dll
