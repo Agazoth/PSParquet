@@ -1,0 +1,284 @@
+{
+  "version": 3,
+  "targets": {
+    "net7.0": {
+      "IronCompress/1.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Snappier": "1.0.0"
+        },
+        "compile": {
+          "lib/net7.0/IronCompress.dll": {}
+        },
+        "runtime": {
+          "lib/net7.0/IronCompress.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-arm64/native/libnironcompress.so": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-x64/native/libnironcompress.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-arm64/native/libnironcompress.dylib": {
+            "assetType": "native",
+            "rid": "osx-arm64"
+          },
+          "runtimes/osx-x64/native/libnironcompress.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/nironcompress.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
+      },
+      "Microsoft.IO.RecyclableMemoryStream/2.3.1": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Parquet.Net/4.5.4": {
+        "type": "package",
+        "dependencies": {
+          "IronCompress": "1.3.0",
+          "Microsoft.IO.RecyclableMemoryStream": "2.3.1"
+        },
+        "compile": {
+          "lib/net7.0/Parquet.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Parquet.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "PowerShellStandard.Library/7.0.0-preview.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/System.Management.Automation.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Management.Automation.dll": {}
+        }
+      },
+      "Snappier/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Snappier.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Snappier.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IronCompress/1.3.0": {
+      "sha512": "XKQgkYMJsQLOtmBLgSBCrw/8eI4Q94CN5mi9NI4glPHfjX+z9SmKC7Y1UsJ0+87XHEIgVv1TVDB6oSWr33X7qA==",
+      "type": "package",
+      "path": "ironcompress/1.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "ironcompress.1.3.0.nupkg.sha512",
+        "ironcompress.nuspec",
+        "lib/net6.0/IronCompress.dll",
+        "lib/net7.0/IronCompress.dll",
+        "lib/netcoreapp3.1/IronCompress.dll",
+        "lib/netstandard2.0/IronCompress.dll",
+        "lib/netstandard2.1/IronCompress.dll",
+        "runtimes/linux-arm64/native/libnironcompress.so",
+        "runtimes/linux-x64/native/libnironcompress.so",
+        "runtimes/osx-arm64/native/libnironcompress.dylib",
+        "runtimes/osx-x64/native/libnironcompress.dylib",
+        "runtimes/win-x64/native/nironcompress.dll"
+      ]
+    },
+    "Microsoft.IO.RecyclableMemoryStream/2.3.1": {
+      "sha512": "2ZdGH254XjWMeRHtsGqKgjk19uYh06SvTJigMjIK5s6M8GNXmCv6WdLxhNvZS+JE4A2Q37zhbAo9I0RiEjoqew==",
+      "type": "package",
+      "path": "microsoft.io.recyclablememorystream/2.3.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/Microsoft.IO.RecyclableMemoryStream.dll",
+        "lib/net462/Microsoft.IO.RecyclableMemoryStream.xml",
+        "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll",
+        "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.xml",
+        "lib/netcoreapp2.1/Microsoft.IO.RecyclableMemoryStream.dll",
+        "lib/netcoreapp2.1/Microsoft.IO.RecyclableMemoryStream.xml",
+        "lib/netstandard2.0/Microsoft.IO.RecyclableMemoryStream.dll",
+        "lib/netstandard2.0/Microsoft.IO.RecyclableMemoryStream.xml",
+        "lib/netstandard2.1/Microsoft.IO.RecyclableMemoryStream.dll",
+        "lib/netstandard2.1/Microsoft.IO.RecyclableMemoryStream.xml",
+        "microsoft.io.recyclablememorystream.2.3.1.nupkg.sha512",
+        "microsoft.io.recyclablememorystream.nuspec"
+      ]
+    },
+    "Parquet.Net/4.5.4": {
+      "sha512": "6vDSuxRRGFHM+W0y+ZsCl6iLdmZYV1+AmLSIPFlGOCyUnTH4WUM0Op+sCczwM7BhAZqZJsWcvxZG1+IGWAxONw==",
+      "type": "package",
+      "path": "parquet.net/4.5.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net6.0/Parquet.dll",
+        "lib/net6.0/Parquet.pdb",
+        "lib/net6.0/Parquet.xml",
+        "lib/net7.0/Parquet.dll",
+        "lib/net7.0/Parquet.pdb",
+        "lib/net7.0/Parquet.xml",
+        "lib/netcoreapp3.1/Parquet.dll",
+        "lib/netcoreapp3.1/Parquet.pdb",
+        "lib/netcoreapp3.1/Parquet.xml",
+        "lib/netstandard2.0/Parquet.dll",
+        "lib/netstandard2.0/Parquet.pdb",
+        "lib/netstandard2.0/Parquet.xml",
+        "lib/netstandard2.1/Parquet.dll",
+        "lib/netstandard2.1/Parquet.pdb",
+        "lib/netstandard2.1/Parquet.xml",
+        "parquet.net.4.5.4.nupkg.sha512",
+        "parquet.net.nuspec"
+      ]
+    },
+    "PowerShellStandard.Library/7.0.0-preview.1": {
+      "sha512": "vd2iKiQjgB/Lh3270aMgdq/NdVq/qNHsLM8P7k/oD3hALG1UOzePa62TOSK6RlQClfXW1xI9Y1e+haHlUkF3PA==",
+      "type": "package",
+      "path": "powershellstandard.library/7.0.0-preview.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "images/PowerShell_64.png",
+        "lib/net452/System.Management.Automation.dll",
+        "lib/netstandard2.0/System.Management.Automation.dll",
+        "powershellstandard.library.7.0.0-preview.1.nupkg.sha512",
+        "powershellstandard.library.nuspec"
+      ]
+    },
+    "Snappier/1.0.0": {
+      "sha512": "rFtK2KEI9hIe8gtx3a0YDXdHOpedIf9wYCEYtBEmtlyiWVX3XlCNV03JrmmAi/Cdfn7dxK+k0sjjcLv4fpHnqA==",
+      "type": "package",
+      "path": "snappier/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "COPYING.txt",
+        "lib/net5.0/Snappier.dll",
+        "lib/net5.0/Snappier.xml",
+        "lib/netcoreapp3.0/Snappier.dll",
+        "lib/netcoreapp3.0/Snappier.xml",
+        "lib/netstandard2.0/Snappier.dll",
+        "lib/netstandard2.0/Snappier.xml",
+        "lib/netstandard2.1/Snappier.dll",
+        "lib/netstandard2.1/Snappier.xml",
+        "snappier.1.0.0.nupkg.sha512",
+        "snappier.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net7.0": [
+      "IronCompress >= 1.3.0",
+      "Parquet.Net >= 4.5.4",
+      "PowerShellStandard.Library >= 7.0.0-preview.1",
+      "Snappier >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/runner/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
+      "projectName": "PSParquet",
+      "projectPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
+      "packagesPath": "/home/runner/.nuget/packages/",
+      "outputPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/runner/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net7.0": {
+        "targetAlias": "net7.0",
+        "dependencies": {
+          "IronCompress": {
+            "target": "Package",
+            "version": "[1.3.0, )"
+          },
+          "Parquet.Net": {
+            "target": "Package",
+            "version": "[4.5.4, )"
+          },
+          "PowerShellStandard.Library": {
+            "target": "Package",
+            "version": "[7.0.0-preview.1, )"
+          },
+          "Snappier": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
