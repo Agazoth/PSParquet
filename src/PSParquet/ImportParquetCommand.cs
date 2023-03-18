@@ -5,7 +5,12 @@ using System.IO;
 using System.Linq;
 using Parquet.Data;
 using Parquet;
-using IronSnappy;
+using IronCompress;
+using Parquet.Rows;
+//using static System.Runtime.InteropServices.JavaScript.JSType;
+using Parquet.Schema;
+using System.Dynamic;
+using PSParquet;
 
 namespace PSParquet
 {
@@ -37,37 +42,8 @@ namespace PSParquet
         {
             WriteVerbose("File: " + FilePath);
             var fi = new FileInfo(FilePath);
-            Stream fileStream = fi.OpenRead();
-            var parquetReader = new ParquetReader(fileStream);
-            DataField[] dataFields = parquetReader.Schema.GetDataFields();
-            var dictionary = new Dictionary<string, object>();
-            foreach (DataField d in dataFields)
-            {
-                string s = d.Name;
-                WriteVerbose(d.ToString());
-                dictionary.Add(d.Name, d.Name);
-            }
-
-            PSObject obj = new PSObject(dictionary);
-            var options = new ParquetOptions { TreatByteArrayAsString = true };
-            string[] header = dataFields.Select(f => f.Name).ToArray();
-            var dict = parquetReader.ReadAsTable();
-            WriteVerbose("Adding rows");
-            foreach (var row in dict)
-            {
-                object[] strarr = row.Values.Select(v => v ?? "").ToArray();
-                var resdict = header.Zip(strarr, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
-                var pso = new PSObject();
-                foreach (var item in resdict)
-                {
-                    pso.Properties.Add(new PSNoteProperty(item.Key, item.Value));
-                };
-                pso.TypeNames.Add("ParquetObject");
-                WriteObject(pso);
-            };
-            fileStream.Close();
-            fileStream.Dispose();
-
+            var objs = PSParquet.GetParquetObjects(FilePath).GetAwaiter().GetResult();
+            WriteObject(objs);
         }
 
         // This method will be called once at the end of pipeline execution; if no input is received, this method is not called

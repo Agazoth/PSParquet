@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "PSParquet": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+      "commandLineArgs": "-NoExit -NoLogo -Command \"Import-Module 'C:\\dev\\PSParquet\\src\\PSParquet\\bin\\Debug\\net7.0\\PSParquet.dll';Import-Parquet 'C:\\Temp\\filesRLE.parquet';\""
+    }
+  }
+}

@@ -42,7 +42,7 @@ Task BuildBinaries {
     if (Test-Path "$Script:BuildDir\src") {
         if (!$(Test-Path $Script:DevSrcFolder)) { New-Item -ItemType Directory -Path $Script:DevSrcFolder -Force }
         dotnet build "$Script:DevSrcFolder"
-        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\net6.0" -filter *dll)) {
+        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\net7.0" -filter *dll)) {
             if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
             Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
             Copy-Item -Path $dll -Destination $Script:DevBinfolder -force

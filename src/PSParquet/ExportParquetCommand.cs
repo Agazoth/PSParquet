@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Parquet.Data;
 using Parquet;
+using Parquet.Schema;
 
 
 namespace PSParquet
@@ -124,27 +125,9 @@ namespace PSParquet
 
             WriteVerbose("Objects: " + InputObject.Length);
 
-            // create file schema
-            var schema = new Schema(fields);
+            ParquetConvert.SerializeAsync(cleanprops, FilePath);
 
-            using (Stream fileStream = System.IO.File.OpenWrite(FilePath))
-            {
-                using (var parquetWriter = new ParquetWriter(schema, fileStream))
-                {
-                    // create a new row group in the file
-                    using (ParquetRowGroupWriter groupWriter = parquetWriter.CreateRowGroup())
-                    {
-                        foreach (var column in col)
-                        {
-                            // write the data for the column
-                            //WriteVerbose("Writing: " + column.Field.Name);
-                            groupWriter.WriteColumn(column);
-                        }
-                    }
-                }
-                fileStream.Close();
-                fileStream.Dispose();
-            }
+
             if (PassThru)
             {
                 WriteObject(InputObject);
