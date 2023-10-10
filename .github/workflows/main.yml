@@ -81,7 +81,7 @@ jobs:
           Write-Host "Path: $(pwd)"
           Write-Host "ModuleName: $ModuleName"
           Get-Childitem ./Artifact -recurse
-          Import-Module "./Artifact/$($Env:MODULE_NAME)"
+          Import-Module ./Artifact/PSParquet
           Get-Command -Module $ModuleName
         shell: pwsh
 
