@@ -45,10 +45,11 @@ Task BuildBinaries {
         $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\net7.0" -filter *dll)) {
             if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
             Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
-            Copy-Item -Path $dll -Destination $Script:DevBinfolder -force
-            if ($dll.BaseName -eq $Script:ModuleName) {
-                $cs = Start-Job -ScriptBlock { Import-Module $args -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
-                Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($dll.name)"
+            $PlacedDll = Copy-Item -Path $dll -Destination $Script:DevBinfolder -force -PassThru
+            if ($PlacedDll.BaseName -eq $Script:ModuleName) {
+                $PlacedDll.FullName | foreach { Write-Verbose $_ -Verbose }
+                $cs = Start-Job -ScriptBlock { Import-Module $args -Verbose -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
+                Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($PlacedDll.name)"
             }
         }
     }
