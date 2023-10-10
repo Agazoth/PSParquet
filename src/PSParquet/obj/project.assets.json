@@ -523,30 +523,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ax\\.nuget\\packages\\": {}
+    "/home/runner/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
+      "projectUniqueName": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
       "projectName": "PSParquet",
-      "projectPath": "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
-      "packagesPath": "C:\\Users\\Ax\\.nuget\\packages\\",
-      "outputPath": "C:\\repos\\PSParquet\\src\\PSParquet\\obj\\",
+      "projectPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
+      "packagesPath": "/home/runner/.nuget/packages/",
+      "outputPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Ax\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/runner/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2": {},
-        "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2": {},
-        "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -589,7 +584,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.111\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
       }
     }
   }
