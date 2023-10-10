@@ -10,3 +10,15 @@
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net7.0/refint/PSParquet.dll
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net7.0/PSParquet.pdb
 /home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/Debug/net7.0/ref/PSParquet.dll
+C:\repos\PSParquet\src\PSParquet\bin\Debug\net7.0\PSParquet.deps.json
+C:\repos\PSParquet\src\PSParquet\bin\Debug\net7.0\PSParquet.dll
+C:\repos\PSParquet\src\PSParquet\bin\Debug\net7.0\PSParquet.pdb
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.csproj.AssemblyReference.cache
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.AssemblyInfoInputs.cache
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.AssemblyInfo.cs
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.csproj.CoreCompileInputs.cache
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.dll
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\refint\PSParquet.dll
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\PSParquet.pdb
+C:\repos\PSParquet\src\PSParquet\obj\Debug\net7.0\ref\PSParquet.dll

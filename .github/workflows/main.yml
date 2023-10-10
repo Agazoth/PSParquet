@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         id: psmodulecache
         uses: potatoqualitee/psmodulecache@v1
         with:
-            modules-to-cache: Pester, PSSCriptAnalyzer, InvokeBuild, platyPS, psake
+          modules-to-cache: Pester, PSSCriptAnalyzer, InvokeBuild, platyPS, psake
 
       - name: Setup PowerShell module cache
         id: cacher
@@ -40,7 +40,7 @@ jobs:
         with:
           path: ${{ steps.psmodulecache.outputs.modulepath }}
           key: ${{ steps.psmodulecache.outputs.keygen }}
-          
+
       - name: Install required PowerShell modules
         if: steps.cacher.outputs.cache-hit != 'true'
         shell: pwsh
@@ -51,6 +51,7 @@ jobs:
       - name: Invoke build
         shell: pwsh
         run: |
+          $env:psakeDeploy = $true
           Invoke-psake .\PSParquet.psake.ps1 Build
 
       - name: Push changes to Git Repository
@@ -61,18 +62,18 @@ jobs:
           git add .
           git commit -am "Pushing Artifacts"
           git push
-      
+
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: PSParquet 
+          name: PSParquet
           path: ./output/
-          
+
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-        # Check out the main branch
+      # Check out the main branch
       - uses: actions/checkout@main
 
       - name: Download build artifact

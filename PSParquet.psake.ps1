@@ -109,17 +109,18 @@ Task InitializeManifestFile -depends InitializeModuleFile {
         "Adding Nested Modules: $($Script:NestedModules -join ', ') to Manifest"
         $UpdateSplat.Add("NestedModules", $Script:NestedModules)
     }
-    $ModuleManifestVersion = Test-ModuleManifest $Script:psd1 | Select-Object -ExpandProperty Version
-    $Major = $ModuleManifestVersion.Major
-    $Minor = $ModuleManifestVersion.Minor
-    $Build = $ModuleManifestVersion.Build
-    if ($Script:IncrementMajorVersion) { $Major++; $Minor = 0; $Build = -1 }
-    elseif ($Script:IncrementMinorVersion) { $Minor++; $Build = -1 }
-    $Build++
-    $VersionString = $("{0}.{1}.{2}" -f $Major, $Minor, $Build)
-    "Updating version to $VersionString"
-    $UpdateSplat.Add("ModuleVersion", [system.version]$VersionString)
-    Update-ModuleManifest @UpdateSplat
+    if (!$env:psakeDeploy) {
+        $ModuleManifestVersion = Test-ModuleManifest $Script:psd1 | Select-Object -ExpandProperty Version
+        $Major = $ModuleManifestVersion.Major
+        $Minor = $ModuleManifestVersion.Minor
+        $Build = $ModuleManifestVersion.Build
+        if ($Script:IncrementMajorVersion) { $Major++; $Minor = 0; $Build = -1 }
+        elseif ($Script:IncrementMinorVersion) { $Minor++; $Build = -1 }
+        $Build++
+        $VersionString = $("{0}.{1}.{2}" -f $Major, $Minor, $Build)
+        "Updating version to $VersionString"
+        $UpdateSplat.Add("ModuleVersion", [system.version]$VersionString)
+    }
 }
 
 Task Build -depends Default {

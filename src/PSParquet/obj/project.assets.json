@@ -2,10 +2,26 @@
   "version": 3,
   "targets": {
     "net7.0": {
-      "IronCompress/1.3.0": {
+      "Apache.Arrow/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Snappier": "1.0.0"
+          "System.Buffers": "4.5.0",
+          "System.Memory": "4.5.2",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2",
+          "System.Threading.Tasks.Extensions": "4.5.2"
+        },
+        "compile": {
+          "lib/netcoreapp2.1/Apache.Arrow.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/Apache.Arrow.dll": {}
+        }
+      },
+      "IronCompress/1.5.1": {
+        "type": "package",
+        "dependencies": {
+          "Snappier": "1.1.1",
+          "ZstdSharp.Port": "0.7.2"
         },
         "compile": {
           "lib/net7.0/IronCompress.dll": {}
@@ -36,24 +52,62 @@
           }
         }
       },
-      "Microsoft.IO.RecyclableMemoryStream/2.3.1": {
-        "type": "package",
-        "compile": {
-          "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Parquet.Net/4.5.4": {
+      "Microsoft.Data.Analysis/0.20.1": {
         "type": "package",
         "dependencies": {
-          "IronCompress": "1.3.0",
-          "Microsoft.IO.RecyclableMemoryStream": "2.3.1"
+          "Apache.Arrow": "2.0.0",
+          "Microsoft.ML.DataView": "2.0.1",
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.3",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Data.Analysis.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Data.Analysis.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.IO.RecyclableMemoryStream/2.3.2": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.IO.RecyclableMemoryStream.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.ML.DataView/2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.Immutable": "1.5.0",
+          "System.Memory": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.ML.DataView.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.ML.DataView.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Parquet.Net/4.16.4": {
+        "type": "package",
+        "dependencies": {
+          "IronCompress": "1.5.1",
+          "Microsoft.Data.Analysis": "0.20.1",
+          "Microsoft.IO.RecyclableMemoryStream": "2.3.2"
         },
         "compile": {
           "lib/net7.0/Parquet.dll": {
@@ -66,7 +120,7 @@
           }
         }
       },
-      "PowerShellStandard.Library/7.0.0-preview.1": {
+      "PowerShellStandard.Library/5.1.1": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/System.Management.Automation.dll": {}
@@ -75,32 +129,111 @@
           "lib/netstandard2.0/System.Management.Automation.dll": {}
         }
       },
-      "Snappier/1.0.0": {
+      "Snappier/1.1.1": {
         "type": "package",
         "compile": {
-          "lib/net5.0/Snappier.dll": {
+          "lib/net7.0/Snappier.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net5.0/Snappier.dll": {
+          "lib/net7.0/Snappier.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Buffers/4.5.1": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      },
+      "System.Collections.Immutable/1.5.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/System.Collections.Immutable.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Collections.Immutable.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.Memory/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/_._": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Threading.Tasks.Extensions/4.5.2": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/_._": {}
+        }
+      },
+      "ZstdSharp.Port/0.7.2": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0/ZstdSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net7.0/ZstdSharp.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "IronCompress/1.3.0": {
-      "sha512": "XKQgkYMJsQLOtmBLgSBCrw/8eI4Q94CN5mi9NI4glPHfjX+z9SmKC7Y1UsJ0+87XHEIgVv1TVDB6oSWr33X7qA==",
+    "Apache.Arrow/2.0.0": {
+      "sha512": "VR+F7g41WMJhr7WoZwwp05OrbYgM5Kmj3FwFXv1g0GgAYhEoCJz3L3qpllUWq9+X/rFKkFRZ2B8XcmsbaqGhrw==",
       "type": "package",
-      "path": "ironcompress/1.3.0",
+      "path": "apache.arrow/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "apache.arrow.2.0.0.nupkg.sha512",
+        "apache.arrow.nuspec",
+        "lib/netcoreapp2.1/Apache.Arrow.dll",
+        "lib/netstandard1.3/Apache.Arrow.dll"
+      ]
+    },
+    "IronCompress/1.5.1": {
+      "sha512": "gy/BbOvjQKw9oXd9E7ovDIB2guGJwROpUhK+8d4PQlZNLd4bQzFWYT5DiDhOFzHAowKuIpQx9XVI7heb0yEZow==",
+      "type": "package",
+      "path": "ironcompress/1.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "icon.png",
-        "ironcompress.1.3.0.nupkg.sha512",
+        "ironcompress.1.5.1.nupkg.sha512",
         "ironcompress.nuspec",
         "lib/net6.0/IronCompress.dll",
         "lib/net7.0/IronCompress.dll",
@@ -114,10 +247,28 @@
         "runtimes/win-x64/native/nironcompress.dll"
       ]
     },
-    "Microsoft.IO.RecyclableMemoryStream/2.3.1": {
-      "sha512": "2ZdGH254XjWMeRHtsGqKgjk19uYh06SvTJigMjIK5s6M8GNXmCv6WdLxhNvZS+JE4A2Q37zhbAo9I0RiEjoqew==",
+    "Microsoft.Data.Analysis/0.20.1": {
+      "sha512": "Or8x/g9oM+ti2bGqUmgip9Wxwr5/bQyNP9sQpke92i/3Bi+syq31kwJ4z8Dk93FECYT8IDETfcyT21J+F4rcdw==",
       "type": "package",
-      "path": "microsoft.io.recyclablememorystream/2.3.1",
+      "path": "microsoft.data.analysis/0.20.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "THIRD-PARTY-NOTICES.TXT",
+        "interactive-extensions/dotnet/Microsoft.Data.Analysis.Interactive.dll",
+        "interactive-extensions/dotnet/Microsoft.Data.Analysis.Interactive.xml",
+        "lib/netstandard2.0/Microsoft.Data.Analysis.dll",
+        "lib/netstandard2.0/Microsoft.Data.Analysis.xml",
+        "microsoft.data.analysis.0.20.1.nupkg.sha512",
+        "microsoft.data.analysis.nuspec",
+        "mlnetlogo.png"
+      ]
+    },
+    "Microsoft.IO.RecyclableMemoryStream/2.3.2": {
+      "sha512": "Oh1qXXFdJFcHozvb4H6XYLf2W0meZFuG0A+TfapFPj9z5fd4vxiARGEhAaLj/6XWQaMYIv4SH/9Q6H78Hw0E2Q==",
+      "type": "package",
+      "path": "microsoft.io.recyclablememorystream/2.3.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -132,14 +283,30 @@
         "lib/netstandard2.0/Microsoft.IO.RecyclableMemoryStream.xml",
         "lib/netstandard2.1/Microsoft.IO.RecyclableMemoryStream.dll",
         "lib/netstandard2.1/Microsoft.IO.RecyclableMemoryStream.xml",
-        "microsoft.io.recyclablememorystream.2.3.1.nupkg.sha512",
+        "microsoft.io.recyclablememorystream.2.3.2.nupkg.sha512",
         "microsoft.io.recyclablememorystream.nuspec"
       ]
     },
-    "Parquet.Net/4.5.4": {
-      "sha512": "6vDSuxRRGFHM+W0y+ZsCl6iLdmZYV1+AmLSIPFlGOCyUnTH4WUM0Op+sCczwM7BhAZqZJsWcvxZG1+IGWAxONw==",
+    "Microsoft.ML.DataView/2.0.1": {
+      "sha512": "w+GkAXlxaut65Lm+Fbp34YTfp0/9jGRn9uiVlL7Lls0/v+4IJM7SMTHfhvegPU48cyI6K2kzaK9j2Va/labhTA==",
       "type": "package",
-      "path": "parquet.net/4.5.4",
+      "path": "microsoft.ml.dataview/2.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netstandard2.0/Microsoft.ML.DataView.dll",
+        "lib/netstandard2.0/Microsoft.ML.DataView.xml",
+        "microsoft.ml.dataview.2.0.1.nupkg.sha512",
+        "microsoft.ml.dataview.nuspec",
+        "mlnetlogo.png"
+      ]
+    },
+    "Parquet.Net/4.16.4": {
+      "sha512": "xVifUzgZr7agqo9dclgsmrei2RtGOjvq/5OlbECDeoeBtIz0YTvj2r4d8/NN1FERvmwU3oZhVfxMiV4p7fCNiA==",
+      "type": "package",
+      "path": "parquet.net/4.16.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -160,73 +327,226 @@
         "lib/netstandard2.1/Parquet.dll",
         "lib/netstandard2.1/Parquet.pdb",
         "lib/netstandard2.1/Parquet.xml",
-        "parquet.net.4.5.4.nupkg.sha512",
+        "parquet.net.4.16.4.nupkg.sha512",
         "parquet.net.nuspec"
       ]
     },
-    "PowerShellStandard.Library/7.0.0-preview.1": {
-      "sha512": "vd2iKiQjgB/Lh3270aMgdq/NdVq/qNHsLM8P7k/oD3hALG1UOzePa62TOSK6RlQClfXW1xI9Y1e+haHlUkF3PA==",
+    "PowerShellStandard.Library/5.1.1": {
+      "sha512": "e31xJjG+Kjbv6YF3Yq6D4Dl3or8v7LrNF41k3CXrWozW6hR1zcOe5KYuZJaGSiAgLnwP8wcW+I3+IWEzMPZKXQ==",
       "type": "package",
-      "path": "powershellstandard.library/7.0.0-preview.1",
+      "path": "powershellstandard.library/5.1.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "images/PowerShell_64.png",
         "lib/net452/System.Management.Automation.dll",
         "lib/netstandard2.0/System.Management.Automation.dll",
-        "powershellstandard.library.7.0.0-preview.1.nupkg.sha512",
+        "powershellstandard.library.5.1.1.nupkg.sha512",
         "powershellstandard.library.nuspec"
       ]
     },
-    "Snappier/1.0.0": {
-      "sha512": "rFtK2KEI9hIe8gtx3a0YDXdHOpedIf9wYCEYtBEmtlyiWVX3XlCNV03JrmmAi/Cdfn7dxK+k0sjjcLv4fpHnqA==",
+    "Snappier/1.1.1": {
+      "sha512": "p0xEWUG8wYUfO24b6VTcFplBO+1ohgL9rK+1ogP8N4oGOKXlLuOLpzYtPBXNxTcYQxxmX3PJdCdqnv0tgcy5YQ==",
       "type": "package",
-      "path": "snappier/1.0.0",
+      "path": "snappier/1.1.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "COPYING.txt",
-        "lib/net5.0/Snappier.dll",
-        "lib/net5.0/Snappier.xml",
-        "lib/netcoreapp3.0/Snappier.dll",
-        "lib/netcoreapp3.0/Snappier.xml",
+        "lib/net6.0/Snappier.dll",
+        "lib/net6.0/Snappier.xml",
+        "lib/net7.0/Snappier.dll",
+        "lib/net7.0/Snappier.xml",
         "lib/netstandard2.0/Snappier.dll",
         "lib/netstandard2.0/Snappier.xml",
-        "lib/netstandard2.1/Snappier.dll",
-        "lib/netstandard2.1/Snappier.xml",
-        "snappier.1.0.0.nupkg.sha512",
+        "snappier.1.1.1.nupkg.sha512",
         "snappier.nuspec"
+      ]
+    },
+    "System.Buffers/4.5.1": {
+      "sha512": "Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg==",
+      "type": "package",
+      "path": "system.buffers/4.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Buffers.dll",
+        "lib/net461/System.Buffers.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.1/System.Buffers.dll",
+        "lib/netstandard1.1/System.Buffers.xml",
+        "lib/netstandard2.0/System.Buffers.dll",
+        "lib/netstandard2.0/System.Buffers.xml",
+        "lib/uap10.0.16299/_._",
+        "ref/net45/System.Buffers.dll",
+        "ref/net45/System.Buffers.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.1/System.Buffers.dll",
+        "ref/netstandard1.1/System.Buffers.xml",
+        "ref/netstandard2.0/System.Buffers.dll",
+        "ref/netstandard2.0/System.Buffers.xml",
+        "ref/uap10.0.16299/_._",
+        "system.buffers.4.5.1.nupkg.sha512",
+        "system.buffers.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Collections.Immutable/1.5.0": {
+      "sha512": "EXKiDFsChZW0RjrZ4FYHu9aW6+P4MCgEDCklsVseRfhoO0F+dXeMSsMRAlVXIo06kGJ/zv+2w1a2uc2+kxxSaQ==",
+      "type": "package",
+      "path": "system.collections.immutable/1.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netstandard1.0/System.Collections.Immutable.dll",
+        "lib/netstandard1.0/System.Collections.Immutable.xml",
+        "lib/netstandard1.3/System.Collections.Immutable.dll",
+        "lib/netstandard1.3/System.Collections.Immutable.xml",
+        "lib/netstandard2.0/System.Collections.Immutable.dll",
+        "lib/netstandard2.0/System.Collections.Immutable.xml",
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll",
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml",
+        "system.collections.immutable.1.5.0.nupkg.sha512",
+        "system.collections.immutable.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Memory/4.5.3": {
+      "sha512": "3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "type": "package",
+      "path": "system.memory/4.5.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard1.1/System.Memory.dll",
+        "lib/netstandard1.1/System.Memory.xml",
+        "lib/netstandard2.0/System.Memory.dll",
+        "lib/netstandard2.0/System.Memory.xml",
+        "ref/netcoreapp2.1/_._",
+        "system.memory.4.5.3.nupkg.sha512",
+        "system.memory.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "sha512": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Threading.Tasks.Extensions/4.5.2": {
+      "sha512": "BG/TNxDFv0svAzx8OiMXDlsHfGw623BZ8tCXw4YLhDFDvDhNUEV58jKYMGRnkbJNm7c3JNNJDiN7JBMzxRBR2w==",
+      "type": "package",
+      "path": "system.threading.tasks.extensions/4.5.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard1.0/System.Threading.Tasks.Extensions.dll",
+        "lib/netstandard1.0/System.Threading.Tasks.Extensions.xml",
+        "lib/netstandard2.0/System.Threading.Tasks.Extensions.dll",
+        "lib/netstandard2.0/System.Threading.Tasks.Extensions.xml",
+        "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll",
+        "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/netcoreapp2.1/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.threading.tasks.extensions.4.5.2.nupkg.sha512",
+        "system.threading.tasks.extensions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "ZstdSharp.Port/0.7.2": {
+      "sha512": "mT6Pb7qzDGapJ2ic4dAFqbzHpM+qgnasQIGR/Sofrk0fmKTQSTljG55OFXHbDJczLZWnUAFsg4bKR81uHiKzPg==",
+      "type": "package",
+      "path": "zstdsharp.port/0.7.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net461/ZstdSharp.dll",
+        "lib/net5.0/ZstdSharp.dll",
+        "lib/net6.0/ZstdSharp.dll",
+        "lib/net7.0/ZstdSharp.dll",
+        "lib/netcoreapp3.1/ZstdSharp.dll",
+        "lib/netstandard2.0/ZstdSharp.dll",
+        "lib/netstandard2.1/ZstdSharp.dll",
+        "zstdsharp.port.0.7.2.nupkg.sha512",
+        "zstdsharp.port.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "IronCompress >= 1.3.0",
-      "Parquet.Net >= 4.5.4",
-      "PowerShellStandard.Library >= 7.0.0-preview.1",
-      "Snappier >= 1.0.0"
+      "Parquet.Net >= 4.16.4",
+      "PowerShellStandard.Library >= 5.1.1"
     ]
   },
   "packageFolders": {
-    "/home/runner/.nuget/packages/": {}
+    "C:\\Users\\Ax\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
+      "projectUniqueName": "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
       "projectName": "PSParquet",
-      "projectPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
-      "packagesPath": "/home/runner/.nuget/packages/",
-      "outputPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/",
+      "projectPath": "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
+      "packagesPath": "C:\\Users\\Ax\\.nuget\\packages\\",
+      "outputPath": "C:\\repos\\PSParquet\\src\\PSParquet\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/runner/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Ax\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2": {},
+        "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2": {},
+        "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -244,21 +564,13 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
-          "IronCompress": {
-            "target": "Package",
-            "version": "[1.3.0, )"
-          },
           "Parquet.Net": {
             "target": "Package",
-            "version": "[4.5.4, )"
+            "version": "[4.16.4, )"
           },
           "PowerShellStandard.Library": {
             "target": "Package",
-            "version": "[7.0.0-preview.1, )"
-          },
-          "Snappier": {
-            "target": "Package",
-            "version": "[1.0.0, )"
+            "version": "[5.1.1, )"
           }
         },
         "imports": [
@@ -277,7 +589,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.111\\RuntimeIdentifierGraph.json"
       }
     }
   }

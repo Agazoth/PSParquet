@@ -29,6 +29,14 @@ PS C:\> Export-Parquet -InputObject $files -FilePath C:\temp\files.parquet
 
 Get a list of files recursively from the current directory and export them tp a Parquet file
 
+### Example 2
+```
+PS C:\> $files = Get-ChildItem -File -Recurse
+PS C:\> $files | Export-Parquet -FilePath C:\temp\files.parquet
+```
+
+Get a list of files recursively from the current directory and export them tp a Parquet file
+
 ## PARAMETERS
 
 ### -FilePath
