@@ -89,7 +89,7 @@ jobs:
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           Write-Host "Path: $(pwd)"
           Write-Host "ModuleName: $ModuleName"
-          ls
+          ls ./Artifact
           Import-Module ./Artifact/$ModuleName
           Get-Command -Module $ModuleName
         shell: pwsh
