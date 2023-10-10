@@ -62,7 +62,7 @@ jobs:
 
   release:
     needs: build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       # Check out the main branch
       - uses: actions/checkout@main
@@ -85,7 +85,7 @@ jobs:
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           Write-Host "Path: $(pwd)"
           Write-Host "ModuleName: $ModuleName"
-          Import-Module ./Artifact/$ModuleName
+          Import-Module ./Artifact/$ModuleName -Force -Verbose -Debug
           Get-Command -Module $ModuleName
         shell: pwsh
 
