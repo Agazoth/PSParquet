@@ -60,6 +60,12 @@ jobs:
           name: PSParquet
           path: ./output/
 
+      - name: Install the module
+        run: |
+          Import-Module ./Artifact/$ModuleName -Force -Verbose -Debug
+          Get-Command -Module $ModuleName
+        shell: pwsh
+
   release:
     needs: build
     runs-on: ubuntu-latest

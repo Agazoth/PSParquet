@@ -52,9 +52,7 @@ namespace PSParquet
         {
             WriteVerbose("Using: " + FilePath.FullName);
             PSObject[] io = InputObject;
-            var writeParquet = PSParquet.WriteParquetFile(io, FilePath.FullName);
-            WriteVerbose($"Write concluded with status {(writeParquet.IsCompletedSuccessfully ? "Failed" : "Succeded")}");
-
+            await PSParquet.WriteParquetFile(io, FilePath.FullName);
 
             if (PassThru)
             {
