@@ -1,26 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj": {}
+    "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj": {}
   },
   "projects": {
-    "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj": {
+    "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
+        "projectUniqueName": "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
         "projectName": "PSParquet",
-        "projectPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/PSParquet.csproj",
-        "packagesPath": "/home/runner/.nuget/packages/",
-        "outputPath": "/home/runner/work/PSParquet/PSParquet/src/PSParquet/obj/",
+        "projectPath": "C:\\repos\\PSParquet\\src\\PSParquet\\PSParquet.csproj",
+        "packagesPath": "C:\\Users\\Ax\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\PSParquet\\src\\PSParquet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/runner/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Ax\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2": {},
+          "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2": {},
+          "https://pkgs.dev.azure.com/ateadbs/CSPX/_packaging/PSCSPX/nuget/v2/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -63,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.111\\RuntimeIdentifierGraph.json"
         }
       }
     }
