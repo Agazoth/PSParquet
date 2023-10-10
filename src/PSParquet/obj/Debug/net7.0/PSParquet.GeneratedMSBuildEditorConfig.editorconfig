@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PSParquet
-build_property.ProjectDir = /home/runner/work/PSParquet/PSParquet/src/PSParquet/
+build_property.ProjectDir = C:\repos\PSParquet\src\PSParquet\
