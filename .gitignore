@@ -1,3 +1,7 @@
 src/bin/
 src/obj/
 .vs/
+
+!src/bin/Debug/net7.0/IronCompress.dll
+!src/bin/Debug/net7.0/Microsoft.IO.RecyclableMemoryStream.dll
+!src/bin/Debug/net7.0/Parquet.dll
