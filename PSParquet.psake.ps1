@@ -121,6 +121,7 @@ Task InitializeManifestFile -depends InitializeModuleFile {
         "Updating version to $VersionString"
         $UpdateSplat.Add("ModuleVersion", [system.version]$VersionString)
     }
+    Update-ModuleManifest @UpdateSplat
 }
 
 Task Build -depends Default {
