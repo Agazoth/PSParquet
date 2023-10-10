@@ -67,6 +67,11 @@ jobs:
       # Check out the main branch
       - uses: actions/checkout@main
 
+      - name: Setup .NET 7.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
@@ -80,8 +85,7 @@ jobs:
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           Write-Host "Path: $(pwd)"
           Write-Host "ModuleName: $ModuleName"
-          Get-Item ./Artifact/PSParquet
-          Import-Module ./Artifact/PSParquet
+          Import-Module ./Artifact/$ModuleName
           Get-Command -Module $ModuleName
         shell: pwsh
 
