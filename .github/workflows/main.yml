@@ -52,6 +52,7 @@ jobs:
         shell: pwsh
         run: |
           $env:psakeDeploy = $true
+          # The build fails in GitHub Actions
           Invoke-psake .\PSParquet.psake.ps1 Test -Verbose
 
       - name: Upload Build Artifact
