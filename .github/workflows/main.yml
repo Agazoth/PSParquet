@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: |
           $env:psakeDeploy = $true
-          Invoke-psake .\PSParquet.psake.ps1 Test
+          Invoke-psake .\PSParquet.psake.ps1 Test -Verbose
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v2.2.3

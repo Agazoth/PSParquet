@@ -53,7 +53,11 @@ Task BuildBinaries {
             $PlacedDll = Copy-Item -Path $dll -Destination $Script:OutputModuleBin -force -PassThru
             if ($PlacedDll.BaseName -eq $Script:ModuleName) {
                 $PlacedDll.FullName | foreach { Write-Verbose $_ }
-                $cs = Start-Job -ScriptBlock { Import-Module $args  -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
+                $cs = Start-Job -ScriptBlock {
+                    $VerbosePreference, $dll = $args
+                    Write-Verbose "Importing $dll"
+                    Import-Module $dll  -PassThru | Select-Object -ExpandProperty ExportedCommands
+                } -ArgumentList $VerbosePreference, $dll.FullName | Wait-Job | Receive-Job
                 Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($PlacedDll.name)"
             }
         }
