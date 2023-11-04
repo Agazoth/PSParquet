@@ -71,6 +71,7 @@ namespace PSParquet
         public static async Task<bool> WriteParquetFile(PSObject[] inputObject, string filePath)
         {
             var properties = inputObject[0].Members.Where(w => w.GetType() == typeof(PSNoteProperty)).ToList();
+            bool dataIsValid = true;
 
             List<ParquetData> parquetData = properties.Select(s => new ParquetData
             {
@@ -81,14 +82,14 @@ namespace PSParquet
             }).ToList();
 
             ParquetSchema schema = new(new DataField("Column1", typeof(string)));
-            bool dataIsValid = true;
+
             try
             {
                 schema = new ParquetSchema(
                     parquetData.Select(s => new DataField(s.Parameter, s.Type, false))
                 );
             }
-            catch
+            catch (Exception ex)
             {
                 dataIsValid = false;
                 return dataIsValid;
@@ -104,17 +105,25 @@ namespace PSParquet
                     // create a new row group in the file
                     using (ParquetRowGroupWriter groupWriter = parquetWriter.CreateRowGroup())
                     {
-                        for (int i = 0; i < parquetData.Count; i++)
+                        try
                         {
-                            Type type = parquetData[i].Type;
-                            Int64 count = parquetData[i].Data.Count();
-                            var rawData = parquetData[i].Data;
-                            Array arr = Array.CreateInstance(type, count);
-                            var data = rawData.Select(s => GetTypedValue(type, s)).ToArray();
-                            Array.Copy(data, arr, parquetData[i].Data.Count());
-                            await groupWriter.WriteColumnAsync(new DataColumn(schema.DataFields[i], arr));
+                            for (int i = 0; i < parquetData.Count; i++)
+                            {
+                                Type type = parquetData[i].Type;
+                                Int64 count = parquetData[i].Data.Count();
+                                var rawData = parquetData[i].Data;
+                                Array arr = Array.CreateInstance(type, count);
+                                var data = rawData.Select(s => GetTypedValue(type, s)).ToArray();
+                                Array.Copy(data, arr, parquetData[i].Data.Count());
+                                await groupWriter.WriteColumnAsync(new DataColumn(schema.DataFields[i], arr));
+                            }
+                            return true;
                         }
-                        return true;
+                        catch (Exception ex)
+                        {
+                            dataIsValid = false;
+                            return dataIsValid;
+                        }
                     }
                 }
             }
