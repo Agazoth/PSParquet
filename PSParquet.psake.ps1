@@ -5,23 +5,26 @@ Properties {
     # Basic naming variables
     $Script:BuildDir = Split-Path $psake.build_script_file
     $Script:ModuleName = $(Split-Path $psake.build_script_file -leaf) -split '\.' | Select-Object -first 1
-    $Script:OutputModule = $BuildDir + '\output\' + $ModuleName
+    $Script:OutputModule = Join-Path (Join-Path $Script:BuildDir 'output') $Script:ModuleName
     # Variables for ps1 files
-    $Script:DevModuleFolder = "$BuildDir\$ModuleName"
+    $Script:DevModuleFolder = Join-Path $Script:BuildDir $Script:ModuleName
     $Script:PublicFiles = @()
     $Script:PrivateFiles = @()
     # Variables for primary 3. party dlls
-    $Script:DevBinfolder = "$Script:DevModuleFolder\bin"
+    $Script:DevBinfolder = Join-String $Script:DevModuleFolder "bin"
     $Script:NestedModules = @()
     $Script:NestedModuleFiles = @()
     # Variables for binary Powershell modules (not done yet)
-    $Script:DevSrcFolder = "$BuildDir\src\$ModuleName"
-    $Script:DevOutputFolder = "$Script:OutputModule\bin"
+    $Script:SrcDir = (Join-Path $Script:BuildDir 'src')
+    $Script:DevSrcFolder = Join-Path $Script:SrcDir $Script:ModuleName
+    $Script:DevOutputFolder = Join-Path $Script:DevSrcFolder "bin"
+    $Script:DebugDllFolder = Join-Path (Join-Path $Script:DevOutputFolder "Debug") "net7.0" 
+    $Script:OutputModuleBin = Join-Path $Script:OutputModule 'bin'
     $Script:CmdletsToExport = @()
     $Script:Cmdlets = @()
     # psm1 and psd1
-    $Script:psm1 = "$DevModuleFolder\$ModuleName.psm1"
-    $Script:psd1 = "$DevModuleFolder\$ModuleName.psd1"
+    $Script:psm1 = Join-Path $Script:DevModuleFolder $($ModuleName + ".psm1")
+    $Script:psd1 = Join-Path $Script:DevModuleFolder $($ModuleName + ".psd1")
 }
 
 Task Default -depends BuildBinaries, Initialize3PartyBinaries, InitializeModuleFile, InitializeManifestFile, UpdateHelp
@@ -39,13 +42,15 @@ Task InitializeBinary {
 
 Task BuildBinaries {
     # Do compilation of binaries, if there are any
-    if (Test-Path "$Script:BuildDir\src") {
-        if (!$(Test-Path $Script:DevSrcFolder)) { New-Item -ItemType Directory -Path $Script:DevSrcFolder -Force }
+    if (Test-Path $Script:DevSrcFolder) {
         dotnet build "$Script:DevSrcFolder"
-        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem "$Script:BuildDir\src\$Script:ModuleName\bin\Debug\net7.0" -filter *dll)) {
-            if (!$(Test-Path $Script:DevOutputFolder)) { New-Item -ItemType Directory -Path $Script:DevOutputFolder -Force }
-            Copy-Item -Path $dll -Destination $Script:DevOutputFolder -force
-            $PlacedDll = Copy-Item -Path $dll -Destination $Script:DevBinfolder -force -PassThru
+        if (!$(Test-Path $Script:OutputModuleBin)) {
+            "Creating $Script:OutputModuleBin"
+            New-Item -ItemType Directory -Path $Script:OutputModuleBin -Force
+        }
+        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem $Script:DebugDllFolder -filter *dll)) {
+            "Copying $dll to $Script:OutputModuleBin"
+            $PlacedDll = Copy-Item -Path $dll -Destination $Script:OutputModuleBin -force -PassThru
             if ($PlacedDll.BaseName -eq $Script:ModuleName) {
                 $PlacedDll.FullName | foreach { Write-Verbose $_ -Verbose }
                 $cs = Start-Job -ScriptBlock { Import-Module $args -Verbose -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
