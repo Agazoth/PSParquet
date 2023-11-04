@@ -1,8 +1,7 @@
 src/PSParquet/bin/*
-src/PSParquet/obj/*
+src/PSParquet/obj
 .vs/*
 src/PSParquet/.vs/*
-src/PSParquet/bin/Debug/*
 output/*
 PSParquet/bin/*
 
