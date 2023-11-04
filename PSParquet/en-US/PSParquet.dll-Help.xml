@@ -10,7 +10,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Esports an array of objects to a parquet file</maml:para>
+      <maml:para>Exports an array of objects to a parquet file. Make sure your objects are formatted correctly. Array, List and HashTable parameters are not supported. Convert these types to basic types before running Export-Parquet.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -20,21 +20,21 @@
           <maml:description>
             <maml:para>Path to the Parquet file. Existing file will be overwritten</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>FileInfo</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
           <maml:name>InputObject</maml:name>
           <maml:description>
-            <maml:para>An array of objects to export to Parquet</maml:para>
+            <maml:para>An array of objects to export to Parquet.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>PSObject[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -42,7 +42,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>PassThru</maml:name>
           <maml:description>
-            <maml:para>Passes the files to the pipeline</maml:para>
+            <maml:para>Passes the objects to the pipeline</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -58,21 +58,21 @@
         <maml:description>
           <maml:para>Path to the Parquet file. Existing file will be overwritten</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>FileInfo</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
         <maml:name>InputObject</maml:name>
         <maml:description>
-          <maml:para>An array of objects to export to Parquet</maml:para>
+          <maml:para>An array of objects to export to Parquet.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
         <dev:type>
-          <maml:name>Object</maml:name>
+          <maml:name>PSObject[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -80,7 +80,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>PassThru</maml:name>
         <maml:description>
-          <maml:para>Passes the files to the pipeline</maml:para>
+          <maml:para>Passes the objects to the pipeline</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -122,6 +122,49 @@
 PS C:\&gt; Export-Parquet -InputObject $files -FilePath C:\temp\files.parquet</dev:code>
         <dev:remarks>
           <maml:para>Get a list of files recursively from the current directory and export them tp a Parquet file</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $files = Get-ChildItem -File -Recurse
+PS C:\&gt; $files | Export-Parquet -FilePath C:\temp\files.parquet</dev:code>
+        <dev:remarks>
+          <maml:para>Get a list of files recursively from the current directory and export them tp a Parquet file</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>$File = C:\Temp\Test.parquet
+$data = 1..100 | foreach {
+    [pscustomobject]@{
+        Date        = (Get-Date).AddHours($_)
+        Int32       = $_
+        TypedInt    = [int]$_
+        IntWithNull = (($_ % 3 -eq 0) ? $null : $_)
+        Text        = "Iteration $_"
+    }
+}
+$data | Export-Parquet -FilePath $File -Force</dev:code>
+        <dev:remarks>
+          <maml:para>Exports the objects to C:\Temp\Test.parquet and overwrites the file if it already exists.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>$File = C:\Temp\Test.parquet
+$data = 1..10 | foreach {
+    [pscustomobject]@{
+        name = $_ 
+        nested=@{
+            nest="blah $_"
+        }
+    }
+}
+$data | Export-Parquet -FilePath $File -Force
+
+WARNING: InputObjects contains unsupported values. Transform the data prior to running Export-Parquet.</dev:code>
+        <dev:remarks>
+          <maml:para>The data contains nested object and returns a warning. No data will be exported.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

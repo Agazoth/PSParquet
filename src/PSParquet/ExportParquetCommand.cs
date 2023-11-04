@@ -1,25 +1,10 @@
 using System.Management.Automation;
-using System.Management.Automation.Runspaces;
 using System.Collections.Generic;
 using System.IO;
-using System;
-using Parquet.Data;
-using System.Linq;
-using Parquet.Rows;
-using Parquet.File;
-using Parquet.Schema;
-using Parquet.Serialization;
-using Parquet;
-using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
-using System.Dynamic;
-using PSParquet;
-using System.ComponentModel.Design;
-using System.Threading.Tasks;
 
 namespace PSParquet
 {
-    [Cmdlet("Export", "Parquet")]
+    [Cmdlet("Export", "Parquet", SupportsShouldProcess = true)]
     [OutputType(typeof(PSCustomObject))]
     public class ExportParquetCommand : PSCmdlet
     {
@@ -41,29 +26,60 @@ namespace PSParquet
         ValueFromPipeline = false,
         ValueFromPipelineByPropertyName = false)]
         public SwitchParameter PassThru { get; set; }
+        [Parameter(
+        Mandatory = false,
+        Position = 3,
+        ValueFromPipeline = false,
+        ValueFromPipelineByPropertyName = false)]
+        public SwitchParameter Force { get; set; }
 
-        // This method gets called once for each cmdlet in the pipeline when the pipeline starts executing
+        private readonly List<PSObject> inputObjects = new List<PSObject>();
+
+
         protected override void BeginProcessing()
         {
-            WriteVerbose("Begin block");
-        }
-        // This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
-        protected override async void ProcessRecord()
-        {
             WriteVerbose("Using: " + FilePath.FullName);
-            PSObject[] io = InputObject;
-            await PSParquet.WriteParquetFile(io, FilePath.FullName);
-
-            if (PassThru)
+            if (FilePath.Exists && !Force)
             {
-                WriteObject(InputObject);
+                Force = ShouldContinue(FilePath.FullName, "Overwrite the existing file?");
+            }
+            if (Force)
+            {
+                WriteVerbose($"Deleting: {FilePath}");
+                FilePath.Delete();
             }
         }
 
-        // This method will be called once at the end of pipeline execution; if no input is received, this method is not called
+        protected override void ProcessRecord()
+        {
+            if (!FilePath.Exists || Force)
+            {
+                WriteDebug("Adding to List");
+                inputObjects.AddRange(InputObject);
+            }
+        }
+
         protected override void EndProcessing()
         {
-            WriteVerbose("End!");
+            if (!FilePath.Exists || Force)
+            {
+                var collectedObjects = inputObjects.ToArray();
+                WriteVerbose($"Writing {collectedObjects.Length} objects to {FilePath.FullName}");
+                bool result = PSParquet.WriteParquetFile(collectedObjects, FilePath.FullName).Result;
+                if (!result)
+                {
+                    WriteWarning("InputObjects contains unsupported values. Transform the data prior to running Export-Parquet.");
+                }
+                else
+                {
+                    WriteVerbose($"InputObject has been exported to {FilePath}");
+                }
+
+                if (PassThru)
+                {
+                    WriteObject(collectedObjects);
+                }
+            }
         }
     }
 }

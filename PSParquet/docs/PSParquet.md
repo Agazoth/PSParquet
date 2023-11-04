@@ -8,7 +8,7 @@ Locale: {{ Update Locale }}
 
 # PSParquet Module
 ## Description
-This module contains modules to import and export data from and to Parquet files
+This module contains modules to import and export data from and to Parquet files. Export objects must be "flat" objects. Nested objects are not (currently) supported. Strong typed parameters are preserved. PSObject based on Int like values are converted to doubles. This is due to the often large amount of objects in the arrays exported to Parquet.
 
 ## PSParquet Cmdlets
 ### [Export-Parquet](Export-Parquet.md)
