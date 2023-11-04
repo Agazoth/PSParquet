@@ -2,11 +2,11 @@ src/PSParquet/bin/*
 src/PSParquet/obj/*
 .vs/*
 src/PSParquet/.vs/*
-src/PSParquet/bin/Debug
-*PSParquet.dll
+src/PSParquet/bin/Debug/*
+output/*
+PSParquet/bin/*
 
 # Keep the required DLLs
 !src/PSParquet/bin/Debug/net7.0/IronCompress.dll
 !src/PSParquet/bin/Debug/net7.0/Microsoft.IO.RecyclableMemoryStream.dll
 !src/PSParquet/bin/Debug/net7.0/Parquet.dll
-
