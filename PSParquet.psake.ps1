@@ -69,8 +69,6 @@ Task Initialize3PartyBinaries {
     }
 }
 
-
-
 Task InitializeModuleFile {
     $Script:ClassFiles = Get-ChildItem $Script:DevModuleFolder\Classes\*.ps1 -ErrorAction SilentlyContinue
     "Class files found: $($Script:ClassFiles.count)"
@@ -169,10 +167,11 @@ Task BuildPSSecretsExtension -depends Default {
 
 Task Test -depends Build {
     start-job -scriptblock {
-        $pesterConfig = @{Path = '.\Tests\' }
+        $VerbosePreference = $args
+        $pesterConfig = @{Path = './Tests/' }
         $c = New-PesterContainer @pesterConfig
         Invoke-Pester -Container $c -Output Detailed
-    } | Wait-Job | Receive-job
+    } -ArgumentList $VerbosePreference | Wait-Job | Receive-job
     Get-Job | Remove-Job
 }
 

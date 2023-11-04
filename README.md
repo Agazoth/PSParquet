@@ -48,15 +48,10 @@ Contributions to this open source module are always welcome! If you find a bug o
 ## Build and test
 
 The project consists of 2 parts:
-* A C# project that develops the binary PowerShell module
-* A PowerShell module compiler that wraps the PowerShell module dll and handles documentation.
 
-Once the C# code has been updated with the desired changes, the PowerShell module compiler packages and exports the module to the output/PSParquet folder. This folder then have a working PowerShell module with everything required for import or upload to the PowerShell Gallery.
+* A PowerShell module compiler that builds the C# code, wraps the dlls in a PowerShell and handles documentation.
+* A C# project for developing the binary PowerShell module
 
-### C# project
-
-* Load the solution in src/PSParquet. The project is a standard binary PowerShell module project.
-* Setup The debugger with a Executable profile that launches PowerShell with NoProfile and imports the DLL from the debug folder
 
 ### PowerShell module compiler
 
@@ -69,6 +64,15 @@ Invoke-psake ./PSParquet.psake.ps1 Test
 ```
 
 Look in the psake file for a details on the tasks it carries out.
+
+Running the build increments the build version. To avoid that, set the environment variable `$env:psakeDeploy` to true
+
+### C# project
+
+* Load the solution in src/PSParquet. The project is a standard binary PowerShell module project.
+* Setup The debugger with a Executable profile that launches PowerShell with NoProfile and imports the DLL from the debug folder
+
+Once the C# code has been updated with the desired changes, the PowerShell module compiler packages and exports the module to the output/PSParquet folder. This folder then have a working PowerShell module with everything required for import or upload to the PowerShell Gallery.
 
 ## License
 
