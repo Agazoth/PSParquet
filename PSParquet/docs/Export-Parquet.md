@@ -13,11 +13,11 @@ Export objects to Parquet file
 ## SYNTAX
 
 ```
-Export-Parquet [-FilePath] <String> [-InputObject] <Object> [-PassThru] [<CommonParameters>]
+Export-Parquet [-FilePath] <FileInfo> [-InputObject] <PSObject[]> [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Esports an array of objects to a parquet file
+Exports an array of objects to a parquet file. Make sure your objects are formatted correctly. Array, List and HashTable parameters are not supported. Convert these types to basic types before running Export-Parquet.
 
 ## EXAMPLES
 
@@ -37,13 +37,48 @@ PS C:\> $files | Export-Parquet -FilePath C:\temp\files.parquet
 
 Get a list of files recursively from the current directory and export them tp a Parquet file
 
+### Example 3
+```
+$File = C:\Temp\Test.parquet
+$data = 1..100 | foreach {
+    [pscustomobject]@{
+        Date        = (Get-Date).AddHours($_)
+        Int32       = $_
+        TypedInt    = [int]$_
+        IntWithNull = (($_ % 3 -eq 0) ? $null : $_)
+        Text        = "Iteration $_"
+    }
+}
+$data | Export-Parquet -FilePath $File -Force
+```
+
+Exports the objects to C:\Temp\Test.parquet and overwrites the file if it already exists.
+
+### Example 4
+```
+$File = C:\Temp\Test.parquet
+$data = 1..10 | foreach {
+    [pscustomobject]@{
+        name = $_ 
+        nested=@{
+            nest="blah $_"
+        }
+    }
+}
+$data | Export-Parquet -FilePath $File -Force
+
+WARNING: InputObjects contains unsupported values. Transform the data prior to running Export-Parquet.
+```
+
+The data contains nested object and returns a warning. No data will be exported.
+
 ## PARAMETERS
 
 ### -FilePath
 Path to the Parquet file. Existing file will be overwritten
 
 ```yaml
-Type: String
+Type: FileInfo
 Parameter Sets: (All)
 Aliases:
 
@@ -55,22 +90,22 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-An array of objects to export to Parquet
+An array of objects to export to Parquet.
 
 ```yaml
-Type: Object
+Type: PSObject[]
 Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
 ### -PassThru
-Passes the files to the pipeline
+Passes the objects to the pipeline
 
 ```yaml
 Type: SwitchParameter

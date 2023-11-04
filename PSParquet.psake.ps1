@@ -83,14 +83,20 @@ Task InitializeModuleFile {
 }
 
 Task UpdateHelp -depends InitializeModuleFile {
-    Start-Job -ScriptBlock {
-        Import-Module $args[0] -Force -Global
-        if (!$(Test-Path $args[1]\docs)) {
-            New-MarkdownHelp -WithModulePage -Module $args[2] -OutputFolder $args[1]\docs
+    $ScriptBlock = {
+        $psm1File, $DevModuleFolder, $Modulename = $args
+        Import-Module $psm1File -Force -Global
+        if (!$(Test-Path "$DevModuleFolder\docs")) {
+            New-MarkdownHelp -WithModulePage -Module $Modulename -OutputFolder "$DevModuleFolder\docs"
         }
-        Update-MarkdownHelpModule $args[1]\docs -RefreshModulePage -Force
-        New-ExternalHelp $args[1]\docs -OutputPath $args[1]\en-US\ -Force
-    } -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName | Wait-Job | Remove-Job
+        Update-MarkdownHelpModule "$DevModuleFolder\docs" -RefreshModulePage -Force
+        if (!$(Test-Path "$DevModuleFolder\en-US")) {
+            New-Item -ItemType Directory -Path "$DevModuleFolder\en-US"
+        }
+        New-ExternalHelp "$DevModuleFolder\docs" -OutputPath "$DevModuleFolder\en-US\" -Force
+    }
+    Start-Job -ScriptBlock $ScriptBlock -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName | Wait-Job | Receive-Job
+    Get-Job | Remove-Job
 
 }
 
