@@ -59,7 +59,7 @@ namespace PSParquet
             }
         }
 
-        protected override async void EndProcessing()
+        protected override void EndProcessing()
         {
             if (!FilePath.Exists || Force)
             {

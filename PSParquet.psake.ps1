@@ -46,14 +46,14 @@ Task BuildBinaries {
         dotnet build "$Script:DevSrcFolder"
         if (!$(Test-Path $Script:OutputModuleBin)) {
             "Creating $Script:OutputModuleBin"
-            New-Item -ItemType Directory -Path $Script:OutputModuleBin -Force
+            $null = New-Item -ItemType Directory -Path $Script:OutputModuleBin -Force
         }
         $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem $Script:DebugDllFolder -filter *dll)) {
-            "Copying $dll to $Script:OutputModuleBin"
+            Write-Verbose "Copying $dll to $Script:OutputModuleBin" 
             $PlacedDll = Copy-Item -Path $dll -Destination $Script:OutputModuleBin -force -PassThru
             if ($PlacedDll.BaseName -eq $Script:ModuleName) {
-                $PlacedDll.FullName | foreach { Write-Verbose $_ -Verbose }
-                $cs = Start-Job -ScriptBlock { Import-Module $args -Verbose -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
+                $PlacedDll.FullName | foreach { Write-Verbose $_ }
+                $cs = Start-Job -ScriptBlock { Import-Module $args  -PassThru | Select-Object -ExpandProperty ExportedCommands } -ArgumentList $dll.FullName | Wait-Job | Receive-Job
                 Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($PlacedDll.name)"
             }
         }
@@ -90,15 +90,17 @@ Task InitializeModuleFile {
 Task UpdateHelp -depends InitializeModuleFile {
     $ScriptBlock = {
         $psm1File, $DevModuleFolder, $Modulename = $args
+        $Docs = Join-Path $DevModuleFolder 'docs'
+        $EnUs = Join-Path $DevModuleFolder 'en-US'
         Import-Module $psm1File -Force -Global
-        if (!$(Test-Path "$DevModuleFolder\docs")) {
-            New-MarkdownHelp -WithModulePage -Module $Modulename -OutputFolder "$DevModuleFolder\docs"
+        if (!$(Test-Path $Docs)) {
+            New-MarkdownHelp -WithModulePage -Module $Modulename -OutputFolder $Docs
         }
-        Update-MarkdownHelpModule "$DevModuleFolder\docs" -RefreshModulePage -Force
-        if (!$(Test-Path "$DevModuleFolder\en-US")) {
-            New-Item -ItemType Directory -Path "$DevModuleFolder\en-US"
+        Update-MarkdownHelpModule $Docs -RefreshModulePage -Force
+        if (!$(Test-Path $EnUs)) {
+            New-Item -ItemType Directory -Path $EnUs
         }
-        New-ExternalHelp "$DevModuleFolder\docs" -OutputPath "$DevModuleFolder\en-US\" -Force
+        New-ExternalHelp $Docs -OutputPath $EnUs -Force
     }
     Start-Job -ScriptBlock $ScriptBlock -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName | Wait-Job | Receive-Job
     Get-Job | Remove-Job

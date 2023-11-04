@@ -91,6 +91,7 @@ namespace PSParquet
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Operation failed: {ex.Message}");
                 dataIsValid = false;
                 return dataIsValid;
             }
@@ -121,6 +122,7 @@ namespace PSParquet
                         }
                         catch (Exception ex)
                         {
+                            Console.WriteLine($"Operation failed: {ex.Message}");
                             dataIsValid = false;
                             return dataIsValid;
                         }

@@ -1,7 +1,7 @@
 Describe "Module tests" {
     BeforeAll {
         $ModulePath = Join-Path (Join-Path $(Split-Path $PSScriptRoot) 'output') 'PSParquet'
-        Write-Verbose $ModulePath -Verbose
+        Write-Verbose "Test Path: $ModulePath"
         Import-Module $ModulePath -Force
         $tempFile = New-TemporaryFile
         $data = 1..100 | foreach {
