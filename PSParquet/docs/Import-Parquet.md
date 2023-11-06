@@ -13,7 +13,7 @@ Import objects from Parquet file
 ## SYNTAX
 
 ```
-Import-Parquet [-FilePath] <String> [<CommonParameters>]
+Import-Parquet [-FilePath] <FileInfo> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -78,7 +78,7 @@ Imports a Parquet file and stores the objects in the FilesFromParquet variable
 Path to the Parquet file
 
 ```yaml
-Type: String
+Type: FileInfo
 Parameter Sets: (All)
 Aliases:
 

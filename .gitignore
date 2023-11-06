@@ -9,3 +9,4 @@ PSParquet/bin/*
 !src/PSParquet/bin/Debug/net7.0/IronCompress.dll
 !src/PSParquet/bin/Debug/net7.0/Microsoft.IO.RecyclableMemoryStream.dll
 !src/PSParquet/bin/Debug/net7.0/Parquet.dll
+!src/PSParquet/bin/Debug/net7.0/Snappier.dll
