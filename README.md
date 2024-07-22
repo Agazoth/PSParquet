@@ -1,5 +1,9 @@
 # PSParquet
 
+<div style="text-align:center">
+<img src="./.media/PowerShellLovesParquet600.png" alt="PowerShellLovesParquet"/>
+</div>
+
 ## Import and Export Data to and from Parquet Files  
    
 This PowerShell module is a free and open source tool that allows you to easily import and export data to and from Parquet files directly from the command line.
