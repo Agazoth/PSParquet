@@ -25,10 +25,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Setup .NET 7.0
+      - name: Setup .NET 8.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
 
       - name: Set required Powershell modules
         id: psmodulecache
@@ -70,10 +70,10 @@ jobs:
       # Check out the main branch
       - uses: actions/checkout@main
 
-      - name: Setup .NET 7.0
+      - name: Setup .NET 8.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
 
       - name: Download build artifact
         uses: actions/download-artifact@v2
@@ -85,6 +85,7 @@ jobs:
         run: |
           Write-Host $Env:GITHUB_REF
           $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
+          ls ./Artifact/$ModuleName -recurse
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           Write-Host "Path: $(pwd)"
           Write-Host "ModuleName: $ModuleName"
@@ -94,5 +95,5 @@ jobs:
 
       - name: Publish to Powershell Gallery
         run: |
-          Publish-Module -Name ./Artifact/$Env:MODULE_NAME -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
+          #Publish-Module -Name ./Artifact/$Env:MODULE_NAME -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
         shell: pwsh
