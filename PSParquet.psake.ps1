@@ -120,6 +120,8 @@ Task UpdateHelp -depends InitializeModuleFile {
         $parts = $p -split ';'
         $parts += $OutputModule
         [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
+        "PSModulePath: $([environment]::GetEnvironmentVariable("PSModulePath"))"
+        Get-ChildItem $OutputModule -Recurse
         $Docs = Join-Path $DevModuleFolder 'docs'
         $EnUs = Join-Path $DevModuleFolder 'en-US'
         Import-Module $ModuleName -Force
