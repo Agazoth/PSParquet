@@ -114,10 +114,15 @@ Task ResetPSModulePath {
 Task UpdateHelp -depends InitializeModuleFile {
     "Updating help for module: $ModuleName"
     $ScriptBlock = {
-        $psm1File, $DevModuleFolder, $Modulename = $args
+        "Setting up PSModulePath"
+        $psm1File, $DevModuleFolder, $Modulename, $OutputModule = $args
+        $p = [Environment]::GetEnvironmentVariable("PSModulePath")
+        $parts = $p -split ';'
+        $parts += $OutputModule
+        [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
         $Docs = Join-Path $DevModuleFolder 'docs'
         $EnUs = Join-Path $DevModuleFolder 'en-US'
-        Import-Module $psm1File -Force -Global
+        Import-Module $ModuleName -Force
         if (!$(Test-Path $Docs)) {
             New-MarkdownHelp -WithModulePage -Module $Modulename -OutputFolder $Docs
         }
@@ -127,7 +132,7 @@ Task UpdateHelp -depends InitializeModuleFile {
         }
         New-ExternalHelp $Docs -OutputPath $EnUs -Force
     }
-    Start-Job -ScriptBlock $ScriptBlock -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName | Wait-Job | Receive-Job
+    Start-Job -ScriptBlock $ScriptBlock -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName, $Script:OutputFolder | Wait-Job | Receive-Job
     Get-Job | Remove-Job
 
 }
