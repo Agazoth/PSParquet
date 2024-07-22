@@ -13,8 +13,8 @@ Export objects to Parquet file
 ## SYNTAX
 
 ```
-Export-Parquet [-FilePath] <FileInfo> [-InputObject] <PSObject[]> [-PassThru] [-Force] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Export-Parquet [-FilePath] <FileInfo> [-InputObject] <PSObject[]> [-PassThru] [-Force]
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,7 +40,7 @@ Get a list of files recursively from the current directory and export them tp a 
 
 ### Example 3
 ```
-$File = C:\Temp\Test.parquet
+$File = "C:\Temp\Test.parquet"
 $data = 1..100 | foreach {
     [pscustomobject]@{
         Date        = (Get-Date).AddHours($_)
@@ -57,7 +57,7 @@ Exports the objects to C:\Temp\Test.parquet and overwrites the file if it alread
 
 ### Example 4
 ```
-$File = C:\Temp\Test.parquet
+$File = "C:\Temp\Test.parquet"
 $data = 1..10 | foreach {
     [pscustomobject]@{
         name = $_ 
@@ -157,6 +157,21 @@ Shows what would happen if the cmdlet runs. The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Parquet.Net" Version="4.16.4" />
+		<PackageReference Include="Parquet.Net" Version="4.24.0" />
 		<PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
 	</ItemGroup>
 
