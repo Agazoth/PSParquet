@@ -97,6 +97,7 @@ Task InitializeModuleFile {
 }
 
 Task SetupPSModulePath {
+    "Setting up PSModulePath"
     $p = [Environment]::GetEnvironmentVariable("PSModulePath")
     $parts = $p -split ';'
     $parts += $Script:OutputModule
@@ -104,12 +105,14 @@ Task SetupPSModulePath {
 }
 
 Task ResetPSModulePath {
+    "Resetting PSModulePath"
     $p = [Environment]::GetEnvironmentVariable("PSModulePath")
     $parts = $p -split ';' |Where {$_ -ne $Script:OutputModule}
     [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
 }
 
 Task UpdateHelp -depends InitializeModuleFile {
+    "Updating help for module: $ModuleName"
     $ScriptBlock = {
         $psm1File, $DevModuleFolder, $Modulename = $args
         $Docs = Join-Path $DevModuleFolder 'docs'
