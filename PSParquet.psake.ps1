@@ -5,6 +5,7 @@ Properties {
     # Basic naming variables
     $Script:BuildDir = Split-Path $psake.build_script_file
     $Script:ModuleName = $(Split-Path $psake.build_script_file -leaf) -split '\.' | Select-Object -first 1
+    $Script:OutputFolder = Join-Path $Script:BuildDir 'output'
     $Script:OutputModule = Join-Path (Join-Path $Script:BuildDir 'output') $Script:ModuleName
     # Variables for ps1 files
     $Script:DevModuleFolder = Join-Path $Script:BuildDir $Script:ModuleName
@@ -18,7 +19,7 @@ Properties {
     $Script:SrcDir = (Join-Path $Script:BuildDir 'src')
     $Script:DevSrcFolder = Join-Path $Script:SrcDir $Script:ModuleName
     $Script:DevOutputFolder = Join-Path $Script:DevSrcFolder "bin"
-    $Script:DebugDllFolder = Join-Path (Join-Path $Script:DevOutputFolder "Debug") "net7.0" 
+    $Script:DebugDllFolder = Join-Path (Join-Path $Script:DevOutputFolder "Debug") "net8.0" 
     $Script:OutputModuleBin = Join-Path $Script:OutputModule 'bin'
     $Script:CmdletsToExport = @()
     $Script:Cmdlets = @()
@@ -27,7 +28,13 @@ Properties {
     $Script:psd1 = Join-Path $Script:DevModuleFolder $($ModuleName + ".psd1")
 }
 
-Task Default -depends BuildBinaries, Initialize3PartyBinaries, InitializeModuleFile, InitializeManifestFile, UpdateHelp
+Task Default -depends BuildBinaries,
+Initialize3PartyBinaries,
+InitializeModuleFile,
+InitializeManifestFile,
+SetupPSModulePath,
+UpdateHelp,
+ResetPSModulePath
 
 Task Cleanup {
 
@@ -87,6 +94,19 @@ Task InitializeModuleFile {
         $Content += Get-Content $file.fullname
     }
     $Content | Out-File $Script:psm1 -force
+}
+
+Task SetupPSModulePath {
+    $p = [Environment]::GetEnvironmentVariable("PSModulePath")
+    $parts = $p -split ';'
+    $parts += $Script:OutputModule
+    [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
+}
+
+Task ResetPSModulePath {
+    $p = [Environment]::GetEnvironmentVariable("PSModulePath")
+    $parts = $p -split ';' |Where {$_ -ne $Script:OutputModule}
+    [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
 }
 
 Task UpdateHelp -depends InitializeModuleFile {
@@ -169,7 +189,8 @@ Task BuildPSSecretsExtension -depends Default {
     $Text | Out-File $ExtensionFolder\ImplementingModule.psd1
 }
 
-Task Test -depends Build {
+Task Test -depends Build,SetupPSModulePath {
+    Install-Module -Name Pester -Force -Scope CurrentUser
     start-job -scriptblock {
         $VerbosePreference = $args
         $pesterConfig = @{Path = './Tests/' }
