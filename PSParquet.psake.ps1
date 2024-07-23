@@ -12,15 +12,12 @@ Properties {
     $Script:PublicFiles = @()
     $Script:PrivateFiles = @()
     # Variables for primary 3. party dlls
-    $Script:DevBinfolder = Join-String $Script:DevModuleFolder "bin"
+    $Script:DevBinfolder = Join-Path $Script:DevModuleFolder "bin"
     $Script:NestedModules = @()
     $Script:NestedModuleFiles = @()
     # Variables for binary Powershell modules (not done yet)
     $Script:SrcDir = (Join-Path $Script:BuildDir 'src')
     $Script:DevSrcFolder = Join-Path $Script:SrcDir $Script:ModuleName
-    $Script:DevOutputFolder = Join-Path $Script:DevSrcFolder "bin"
-    $Script:DebugDllFolder = Join-Path (Join-Path $Script:DevOutputFolder "Debug") "net8.0" 
-    $Script:OutputModuleBin = Join-Path $Script:OutputModule 'bin'
     $Script:CmdletsToExport = @()
     $Script:Cmdlets = @()
     # psm1 and psd1
@@ -29,16 +26,12 @@ Properties {
 }
 
 Task Default -depends BuildBinaries,
+UpdateModuleManifest,
 Initialize3PartyBinaries,
 InitializeModuleFile,
 InitializeManifestFile,
-SetupPSModulePath,
-UpdateHelp,
-ResetPSModulePath
+UpdateHelp
 
-Task Cleanup {
-
-}
 
 Task InitializeBinary {
     Push-Location $Script:BuildDir
@@ -48,28 +41,22 @@ Task InitializeBinary {
 }
 
 Task BuildBinaries {
-    # Do compilation of binaries, if there are any
+    # Do compilation of binaries, if there are any - always do publish to get dependent libraries
     if (Test-Path $Script:DevSrcFolder) {
-        dotnet build "$Script:DevSrcFolder"
-        if (!$(Test-Path $Script:OutputModuleBin)) {
-            "Creating $Script:OutputModuleBin"
-            $null = New-Item -ItemType Directory -Path $Script:OutputModuleBin -Force
-        }
-        $Script:CmdletsToExport = foreach ($dll in $(Get-ChildItem $Script:DebugDllFolder -filter *dll)) {
-            Write-Verbose "Copying $dll to $Script:OutputModuleBin" 
-            $PlacedDll = Copy-Item -Path $dll -Destination $Script:OutputModuleBin -force -PassThru
-            if ($PlacedDll.BaseName -eq $Script:ModuleName) {
-                $PlacedDll.FullName | foreach { Write-Verbose $_ }
-                $cs = Start-Job -ScriptBlock {
-                    $VerbosePreference, $dll = $args
-                    Write-Verbose "Importing $dll"
-                    Import-Module $dll  -PassThru | Select-Object -ExpandProperty ExportedCommands
-                } -ArgumentList $VerbosePreference, $dll.FullName | Wait-Job | Receive-Job
-                Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($PlacedDll.name)"
-            }
-        }
+        dotnet publish "$Script:DevSrcFolder" -o $Script:DevBinfolder
     }
 }
+
+Task UpdateModuleManifest {
+    $dll = Get-ChildItem "$(Join-Path $Script:DevBinfolder $Script:ModuleName).dll"
+    $cs = Start-Job -ScriptBlock {
+        $VerbosePreference, $dll = $args
+        Write-Verbose "Importing $dll"
+        Import-Module $dll  -PassThru | Select-Object -ExpandProperty ExportedCommands
+        } -ArgumentList $VerbosePreference, $dll.FullName | Wait-Job | Receive-Job
+        Update-ModuleManifest -Path $Script:psd1 -FunctionsToExport $cs.Keys -NestedModules "bin/$($dll.name)"
+}
+
 
 Task Initialize3PartyBinaries {
     if (test-path $Script:DevBinfolder) {
@@ -96,45 +83,24 @@ Task InitializeModuleFile {
     $Content | Out-File $Script:psm1 -force
 }
 
-Task SetupPSModulePath {
-    "Setting up PSModulePath"
-    $p = [Environment]::GetEnvironmentVariable("PSModulePath")
-    $parts = $p -split ';'
-    $parts += $Script:OutputModule
-    [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
-}
-
-Task ResetPSModulePath {
-    "Resetting PSModulePath"
-    $p = [Environment]::GetEnvironmentVariable("PSModulePath")
-    $parts = $p -split ';' |Where {$_ -ne $Script:OutputModule}
-    [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
-}
 
 Task UpdateHelp -depends InitializeModuleFile {
     "Updating help for module: $ModuleName"
     $ScriptBlock = {
-        "Setting up PSModulePath"
-        $psm1File, $DevModuleFolder, $Modulename, $OutputModule = $args
-        $p = [Environment]::GetEnvironmentVariable("PSModulePath")
-        $parts = $p -split ';'
-        $parts += $OutputModule
-        [Environment]::SetEnvironmentVariable("PSModulePath", $($parts -join ';'))
-        "PSModulePath: $([environment]::GetEnvironmentVariable("PSModulePath"))"
-        Get-ChildItem $OutputModule -Recurse
+        $psd1File, $DevModuleFolder, $Modulename, $OutputModule = $args
         $Docs = Join-Path $DevModuleFolder 'docs'
         $EnUs = Join-Path $DevModuleFolder 'en-US'
-        Import-Module $ModuleName -Force
+        Import-Module $DevModuleFolder -Force
         if (!$(Test-Path $Docs)) {
             New-MarkdownHelp -WithModulePage -Module $Modulename -OutputFolder $Docs
         }
-        Update-MarkdownHelpModule $Docs -RefreshModulePage -Force
+        $null = Update-MarkdownHelpModule $Docs -RefreshModulePage -Force
         if (!$(Test-Path $EnUs)) {
             New-Item -ItemType Directory -Path $EnUs
         }
         New-ExternalHelp $Docs -OutputPath $EnUs -Force
     }
-    Start-Job -ScriptBlock $ScriptBlock -ArgumentList $Script:psm1, $Script:DevModuleFolder, $Script:ModuleName, $Script:OutputFolder | Wait-Job | Receive-Job
+    Start-Job -ScriptBlock $ScriptBlock -ArgumentList $Script:psd1, $Script:DevModuleFolder, $Script:ModuleName, $Script:OutputFolder | Wait-Job | Receive-Job
     Get-Job | Remove-Job
 
 }
@@ -173,14 +139,11 @@ Task InitializeManifestFile -depends InitializeModuleFile {
 Task Build -depends Default {
     if (!$(Test-Path $OutputModule)) {
         "Creating Output Directory: $OutputModule"
-        New-Item -Path $OutputModule -ItemType Directory -Force
+        $null = New-Item -Path $OutputModule -ItemType Directory -Force
     } 
-    Get-ChildItem $Script:DevModuleFolder -File | Copy-Item -Destination $OutputModule -Force
-    if ($Script:NestedModuleFiles) {
-        "Adding {0} 3. party dlls to the module" -f $Script:NestedModuleFiles
-        Copy-Item $Script:DevBinfolder -Destination $OutputModule -Recurse -Force
-    }
-    Get-ChildItem $Script:DevModuleFolder -Directory -Exclude docs, Private, Public, Classes | Copy-Item -Destination $OutputModule -Recurse -Force
+    "Copying everything to $OutputModule"
+    Get-ChildItem $Script:DevModuleFolder -Exclude docs, Private, Public, Classes | 
+    Copy-Item -Destination $OutputModule -Recurse:$($_.PSIsContainer) -Force
 }
 
 Task BuildPSSecretsExtension -depends Default {
@@ -199,7 +162,7 @@ Task BuildPSSecretsExtension -depends Default {
     $Text | Out-File $ExtensionFolder\ImplementingModule.psd1
 }
 
-Task Test -depends Build,SetupPSModulePath {
+Task Test -depends Build {
     Install-Module -Name Pester -Force -Scope CurrentUser
     start-job -scriptblock {
         $VerbosePreference = $args
