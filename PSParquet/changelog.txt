@@ -1,5 +1,13 @@
 # Versions
 
+0.2.12:
+* Updated project to .NET 8
+* Updated to newest version of Parquet.Net
+* Implemented release build to include dependent libraries automatically
+* Simplified and more robust psake Build and Test sequense
+* Refreshed the readme
+* Added information to the PowerShell Gallery repo
+
 0.2.0:
 * Project made Open Source
 
