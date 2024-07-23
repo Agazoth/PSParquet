@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -85,12 +85,11 @@ jobs:
         run: |
           Write-Host $Env:GITHUB_REF
           $ModuleName = (Get-ChildItem -Path ./Artifact/).Name
-          Get-ChildItem -Path ./Artifact/ -recurse
           echo "MODULE_NAME=$ModuleName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           Write-Host "Path: $(pwd)"
           Write-Host "ModuleName: $ModuleName"
-          #Import-Module ./Artifact/$ModuleName -Force -Verbose -Debug
-          #Get-Command -Module $ModuleName
+          Import-Module ./Artifact/$ModuleName -Force -Verbose -Debug
+          Get-Command -Module $ModuleName
         shell: pwsh
 
       - name: Publish to Powershell Gallery
