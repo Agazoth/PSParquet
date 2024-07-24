@@ -1,5 +1,8 @@
 # Versions
 
+0.2.13:
+* Make output support pipeline
+
 0.2.12:
 * Updated project to .NET 8
 * Updated to newest version of Parquet.Net
