@@ -32,7 +32,7 @@ namespace PSParquet
         protected override void EndProcessing()
         {
             var objs = PSParquet.GetParquetObjects(FilePath.FullName).GetAwaiter().GetResult();
-            WriteObject(objs);
+            objs.ForEach( obj => WriteObject(obj));
         }
     }
 }
