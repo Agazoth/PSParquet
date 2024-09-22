@@ -94,5 +94,5 @@ jobs:
 
       - name: Publish to Powershell Gallery
         run: |
-          # Publish-Module -Name ./Artifact/$Env:MODULE_NAME -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
+          Publish-Module -Name ./Artifact/$Env:MODULE_NAME -NuGetApiKey ${{ secrets.PSGALLERYKEY }}
         shell: pwsh
