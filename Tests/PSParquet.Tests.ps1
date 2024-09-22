@@ -12,7 +12,7 @@ Describe "Module tests" {
                 IntWithNull = (($_ % 3 -eq 0) ? $null : $_)
                 Text        = "Iteration $_"
             }
-        }
+        } | Select-Object *,@{Name='WrappedString';Expression={'Wrapped {0}' -f $_.Text}}
         Export-Parquet -FilePath $tempFile.FullName -InputObject $data -Force
         $Content = Import-Parquet -FilePath $tempFile.FullName
     }
@@ -39,6 +39,9 @@ Describe "Module tests" {
     }
     it "Test is a string" {
         ($Content[0].Text -is [String]) | Should -Be $true
+    }
+    it "WrappedString is a string" {
+        ($Content[0].WrappedString -is [String]) | Should -Be $true
     }
 
     AfterAll {
