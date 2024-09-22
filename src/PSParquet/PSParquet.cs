@@ -76,7 +76,7 @@ namespace PSParquet
             {
                 Parameter = s.Name,
                 // Making sure ps-typed int32s have sufficient size for all objects
-                Type = inputObject[0].Properties[s.Name].Value is PSObject && s.TypeNameOfValue != "System.String" ?
+                Type = inputObject[0].Properties[s.Name].Value is PSObject && s.TypeNameOfValue == "System.Int32" ?
                     Type.GetType("System.Double") : 
                     Type.GetType(s.TypeNameOfValue),
                 Data = (from o in inputObject select o.Properties[s.Name].Value).ToArray()
