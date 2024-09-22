@@ -72,12 +72,13 @@ namespace PSParquet
         {
             var properties = inputObject[0].Members.Where(w => w.GetType() == typeof(PSNoteProperty)).ToList();
             bool dataIsValid = true;
-
             List<ParquetData> parquetData = properties.Select(s => new ParquetData
             {
                 Parameter = s.Name,
                 // Making sure ps-typed int32s have sufficient size for all objects
-                Type = inputObject[0].Properties[s.Name].Value is PSObject ? Type.GetType("System.Double") : Type.GetType(s.TypeNameOfValue),
+                Type = inputObject[0].Properties[s.Name].Value is PSObject && s.TypeNameOfValue != "System.String" ?
+                    Type.GetType("System.Double") : 
+                    Type.GetType(s.TypeNameOfValue),
                 Data = (from o in inputObject select o.Properties[s.Name].Value).ToArray()
             }).ToList();
 
