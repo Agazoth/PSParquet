@@ -53,7 +53,7 @@ jobs:
       - name: Invoke build
         shell: pwsh
         run: |
-          $env:psakeDeploy = $true
+          $env:psakeDeploy = $false
           # The build fails in GitHub Actions
           Invoke-psake .\PSParquet.psake.ps1 Test -Verbose -ErrorAction Stop
 
