@@ -22,7 +22,7 @@ Properties {
     $Script:CmdletsToExport = @()
     $Script:Cmdlets = @()
     # psm1 and psd1
-    $Script:psm1 = Join-Path $Script:DevModuleFolder $($ModuleName + ".psm1")
+    # $Script:psm1 = Join-Path $Script:DevModuleFolder $($ModuleName + ".psm1")
     $Script:psd1 = Join-Path $Script:DevModuleFolder $($ModuleName + ".psd1")
 }
 
