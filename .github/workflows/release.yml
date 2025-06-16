@@ -55,7 +55,9 @@ jobs:
         run: |
           $env:psakeDeploy = $false
           # The build fails in GitHub Actions
-          Invoke-psake .\PSParquet.psake.ps1 Test -Verbose -ErrorAction Stop
+          Invoke-psake .\PSParquet.psake.ps1 Test -Verbose -ErrorAction Stop -Parameters @{
+            UpdateVersion = $true
+          }
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4

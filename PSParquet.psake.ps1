@@ -2,6 +2,7 @@ Properties {
     # Variables for versioning (Build version is updated accordingly)
     $Script:IncrementMajorVersion = $IncrementMajorVersion
     $Script:IncrementMinorVersion = $IncrementMinorVersion
+    $Script:UpdateVersion = $UpdateVersion
     # Basic naming variables
     $Script:BuildDir = Split-Path $psake.build_script_file
     $Script:ModuleName = $(Split-Path $psake.build_script_file -leaf) -split '\.' | Select-Object -first 1
@@ -121,7 +122,7 @@ Task InitializeManifestFile -depends InitializeModuleFile {
         "Adding Nested Modules: $($Script:NestedModules -join ', ') to Manifest"
         $UpdateSplat.Add("NestedModules", $Script:NestedModules)
     }
-    if (!$env:psakeDeploy) {
+    if ($UpdateVersion) {
         $ModuleManifestVersion = Test-ModuleManifest $Script:psd1 | Select-Object -ExpandProperty Version
         $Major = $ModuleManifestVersion.Major
         $Minor = $ModuleManifestVersion.Minor
