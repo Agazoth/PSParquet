@@ -12,7 +12,7 @@
 RootModule = 'PSParquet.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.2.15'
+ModuleVersion = '0.2.16'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@ Description = 'Import and export objects to parquet format'
 NestedModules = @('bin/PSParquet.dll')
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Import-Parquet', 'Export-Parquet'
+FunctionsToExport = 'Import-Parquet', 'Export-Parquet', 'Get-ParquetFileInfo'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = '*'

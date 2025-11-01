@@ -55,6 +55,17 @@ Describe "Module tests" {
 
     }
 
+    it {Gets Parquet file info correctly} {
+        $info = Get-ParquetFileInfo $tempFile.FullName
+        $info.RowGroupCount | Should -Be 1
+        $info.ElementsInFirstGroup | Should -Be 100
+        $info.ElementsInLastGroup | Should -Be 100
+        $info.Schema.Count | Should -Be 6
+        $fieldNames = $info.Schema | ForEach-Object { $_.Name }
+        $fieldNames | Should -Contain 'Date'
+        $fieldNames | Should -Contain 'Int32'
+    }
+
     AfterAll {
         Remove-Item $tempFile -Force
     }

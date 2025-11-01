@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug PSParquet Module",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "args": [
+                "-NoExit",
+                "-NoLogo",
+                "-Command",
+                "Import-Module 'C:\\dev\\PSParquet\\src\\PSParquet\\bin\\Debug\\net8.0\\PSParquet.dll'"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "enableStepFiltering": false,
+            "suppressJITOptimizations": true,
+            "preLaunchTask": "build"
+        },
+        {
+            "name": "Debug PSParquet with Custom Script",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "args": [
+                "-NoExit",
+                "-NoLogo",
+                "-File",
+                "${workspaceFolder}/debug-script.ps1"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "enableStepFiltering": false,
+            "suppressJITOptimizations": true,
+            "preLaunchTask": "build"
+        },
+        {
+            "name": "Attach to PowerShell Process",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "justMyCode": false
+        }
+    ]
+}
