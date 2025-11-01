@@ -14,6 +14,9 @@ This module contains modules to import and export data from and to Parquet files
 ### [Export-Parquet](Export-Parquet.md)
 Export objects to Parquet file
 
+### [Get-ParquetFileInfo](Get-ParquetFileInfo.md)
+{{ Fill in the Synopsis }}
+
 ### [Import-Parquet](Import-Parquet.md)
 Import objects from Parquet file
 

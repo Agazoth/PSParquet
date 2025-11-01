@@ -16,6 +16,30 @@ namespace PSParquet
     {
         string FilePath { get; set; }
 
+        public static async Task<PSObject> GetParquetFileInfo(string FilePath)
+        {
+            PSObject pso = new();
+            pso.TypeNames.Insert(0, "PSParquet.ParquetFileInfo");
+            Stream fileStream = File.OpenRead(FilePath);
+            using (ParquetReader reader = await ParquetReader.CreateAsync(fileStream, leaveStreamOpen: false))
+            {
+                pso.Properties.Add(new PSNoteProperty("RowGroupCount", reader.RowGroupCount));
+                pso.Properties.Add(new PSNoteProperty("ElementsInFirstGroup", reader.RowGroups[0].RowCount));
+                pso.Properties.Add(new PSNoteProperty("ElementsInLastGroup", reader.RowGroups[reader.RowGroupCount - 1].RowCount));
+                List<PSObject> schemaFields = reader.Schema.DataFields.Select(field => 
+                {
+                    PSObject fieldObj = new();
+                    fieldObj.TypeNames.Insert(0, "PSParquet.DataFieldInfo");
+                    fieldObj.Properties.Add(new PSNoteProperty("Name", field.Name));
+                    fieldObj.Properties.Add(new PSNoteProperty("Type", field.ClrType.FullName));
+                    return fieldObj;
+                }).ToList();
+                
+                pso.Properties.Add(new PSNoteProperty("Schema", schemaFields));
+            }
+            return pso;
+        }
+
         public static async Task<List<PSObject>> GetParquetObjects(string FilePath, int? FirstNGroups)
         {
             List<PSObject> objects = new List<PSObject>();

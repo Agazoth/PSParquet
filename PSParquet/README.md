@@ -1,7 +1,10 @@
 # Versions
 
+0.2.17
+* Get-ParquetFileInfo added
+
 0.2.16
-* Support for multiple RowGroups
+* Support for multiple RowGroups added for Import-Parquet
 
 0.2.0:
 * Project made Open Source
