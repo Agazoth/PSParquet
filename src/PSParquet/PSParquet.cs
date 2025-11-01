@@ -16,28 +16,42 @@ namespace PSParquet
     {
         string FilePath { get; set; }
 
-        public static async Task<List<PSObject>> GetParquetObjects(string FilePath)
+        public static async Task<List<PSObject>> GetParquetObjects(string FilePath, int? FirstNGroups)
         {
             List<PSObject> objects = new List<PSObject>();
             Stream fileStream = File.OpenRead(FilePath);
             using (ParquetReader reader = await ParquetReader.CreateAsync(fileStream, leaveStreamOpen: false))
             {
-                var all = await reader.ReadEntireRowGroupAsync();
-                string[] headers = new string[all.Length];
-                for (int i = 0; i < all.Length; i++)
+
+                int iterator;
+                if (!FirstNGroups.HasValue || FirstNGroups.Value ==0 || FirstNGroups.Value > reader.RowGroupCount)
                 {
-                    headers[i] = all[i].Field.Name.ToString();
+                    iterator = reader.RowGroupCount;
+                }
+                else
+                {
+                    iterator = FirstNGroups.Value;
                 }
 
-                for (int i = 0; i < all[0].Data.Length; i++)
+                for (int rg =0; rg < iterator; rg++)
                 {
-                    PSObject pso = new();
-                    for (int j = 0; j < headers.Length; j++)
-                    {
-                        pso.Properties.Add(new PSNoteProperty(headers[j], all[j].Data.GetValue(i)));
-                    }
-                    objects.Add(pso);
+                    var all = await reader.ReadEntireRowGroupAsync(rg);
 
+                    string[] headers = new string[all.Length];
+                    for (int i =0; i < all.Length; i++)
+                    {
+                        headers[i] = all[i].Field.Name.ToString();
+                    }
+
+                    for (int rowIndex =0; rowIndex < all[0].Data.Length; rowIndex++)
+                    {
+                        PSObject pso = new();
+                        for (int j =0; j < headers.Length; j++)
+                        {
+                            pso.Properties.Add(new PSNoteProperty(headers[j], all[j].Data.GetValue(rowIndex)));
+                        }
+                        objects.Add(pso);
+                    }
                 }
             }
             return objects;
@@ -57,7 +71,7 @@ namespace PSParquet
                         valueResult = DateTime.MinValue;
                         break;
                     default:
-                        valueResult = 0;
+                        valueResult =0;
                         break;
                 }
             }
@@ -109,7 +123,7 @@ namespace PSParquet
                     {
                         try
                         {
-                            for (int i = 0; i < parquetData.Count; i++)
+                            for (int i =0; i < parquetData.Count; i++)
                             {
                                 Type type = parquetData[i].Type;
                                 Int64 count = parquetData[i].Data.Count();

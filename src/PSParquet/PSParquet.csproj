@@ -2,10 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+		<!-- Ensure NuGet package assemblies are copied to the build output so PowerShell can load them at runtime -->
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Parquet.Net" Version="4.24.0" />
+		<PackageReference Include="Parquet.Net" Version="5.3.0" />
 		<PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
 	</ItemGroup>
 

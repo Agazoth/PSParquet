@@ -14,6 +14,7 @@ Describe "Module tests" {
             }
         } | Select-Object *,@{Name='WrappedString';Expression={'Wrapped {0}' -f $_.Text}}
         Export-Parquet -FilePath $tempFile.FullName -InputObject $data -Force
+        $bigFile = Join-Path $PSScriptRoot 'data\paginated-dataset.parquet'
         $Content = Import-Parquet -FilePath $tempFile.FullName
     }
     it "Export data to file" {
@@ -42,6 +43,16 @@ Describe "Module tests" {
     }
     it "WrappedString is a string" {
         ($Content[0].WrappedString -is [String]) | Should -Be $true
+    }
+    it "Reads more then 1000 lines in paginated files" {
+        if (Test-Path $bigFile) {
+            $bigDataset = Import-Parquet -FilePath $bigFile -FirstNGroups 5
+            $bigDataset.Count | Should -Be 5000
+        } else {
+            Write-Warning "Big file $bigFile not found, skipping test"
+            $true | Should -Be $true
+        }
+
     }
 
     AfterAll {

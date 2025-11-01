@@ -15,6 +15,10 @@ namespace PSParquet
             ValueFromPipelineByPropertyName = true)]
         public FileInfo FilePath { get; set; }
 
+        [Parameter(Mandatory = false)]
+        [ValidateRange(1, int.MaxValue)]
+        public int FirstNGroups { get; set; } = 0;
+
         protected override void BeginProcessing()
         {
             if (!FilePath.Exists)
@@ -31,7 +35,7 @@ namespace PSParquet
 
         protected override void EndProcessing()
         {
-            var objs = PSParquet.GetParquetObjects(FilePath.FullName).GetAwaiter().GetResult();
+            var objs = PSParquet.GetParquetObjects(FilePath.FullName, FirstNGroups).GetAwaiter().GetResult();
             objs.ForEach( obj => WriteObject(obj));
         }
     }
