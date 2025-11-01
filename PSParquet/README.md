@@ -1,5 +1,8 @@
 # Versions
 
+0.2.16
+* Support for multiple RowGroups
+
 0.2.0:
 * Project made Open Source
 

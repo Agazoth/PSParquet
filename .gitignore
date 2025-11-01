@@ -4,6 +4,7 @@ src/PSParquet/obj
 src/PSParquet/.vs/*
 output/*
 PSParquet/bin/*
+Tests/data/*
 
 # Keep the required DLLs
 !src/PSParquet/bin/Debug/net7.0/IronCompress.dll
