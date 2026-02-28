@@ -34,13 +34,13 @@ Once installed, you can use the `Import-Parquet` and `Export-Parquet` cmdlets to
 For example, to import data from a Parquet file:  
    
 ```powershell  
-Import-Parquet -Path "path/to/file.parquet"  
+Import-Parquet -FilePath "path/to/file.parquet"  
 ```  
    
 And to export data to a Parquet file:  
    
 ```powershell  
-Export-Parquet -InputObject $data -Path "path/to/file.parquet"  
+Export-Parquet -InputObject $data -FilePath "path/to/file.parquet"  
 ```
 
 Use the `Get-Help` cmdlet for more help.
